@@ -21,7 +21,299 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
     <script type="module" crossorigin src="/assets/index-U6-UlBoK.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-DgYh_5oA.css">
-  </head>
+  
+  <!-- DE Navbar Inject CSS -->
+  <style id="de-navbar-styles">
+
+/* ===== 夢想不動產 DE 導覽列重構樣式 ===== */
+
+/* 整體 wrapper */
+.de-navbar-wrapper {
+  width: 100%;
+}
+
+/* 頂部列：Logo + 右側按鈕 */
+.de-navbar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8f5f1;
+  margin-bottom: 10px;
+}
+
+/* Logo 區 */
+.de-logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.de-logo-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #2eb89f, #1f8b7f);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(46, 184, 159, 0.3);
+  flex-shrink: 0;
+}
+
+.de-logo-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.de-logo-title {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.de-logo-main {
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #2eb89f, #1f8b7f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.de-logo-sub {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.de-logo-tagline {
+  font-size: 11px;
+  color: #9ca3af;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 右側按鈕區 */
+.de-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.de-btn-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  color: #2eb89f;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.de-btn-link:hover {
+  background-color: #f0faf8;
+  color: #1f8b7f;
+  text-decoration: none;
+}
+
+.de-btn-line {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
+  background: linear-gradient(135deg, #2eb89f, #1f8b7f);
+  color: white !important;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(46, 184, 159, 0.35);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.de-btn-line:hover {
+  background: linear-gradient(135deg, #25a08a, #196f66);
+  box-shadow: 0 4px 12px rgba(46, 184, 159, 0.45);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: white !important;
+}
+
+/* 導覽列 */
+.de-navbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+/* 下拉選單容器 */
+.de-nav-dropdown-wrap {
+  position: relative;
+}
+
+/* 導覽列按鈕基礎樣式 */
+.de-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.de-nav-item:hover {
+  background-color: #f0faf8;
+  color: #2eb89f;
+}
+
+/* Active 狀態 */
+.de-nav-item.de-nav-active {
+  background: linear-gradient(135deg, #2eb89f, #1f8b7f);
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(46, 184, 159, 0.35);
+}
+
+.de-nav-item.de-nav-active:hover {
+  background: linear-gradient(135deg, #25a08a, #196f66);
+}
+
+/* 下拉箭頭 */
+.de-dropdown-arrow {
+  font-size: 11px;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.de-nav-item-open .de-dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* 下拉選單 */
+.de-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 180px;
+  background: white;
+  border: 1px solid #d4ede8;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(46, 184, 159, 0.15), 0 2px 8px rgba(0,0,0,0.08);
+  padding: 6px;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.de-dropdown-menu.de-dropdown-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+/* 下拉選單項目 */
+.de-dropdown-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.de-dropdown-item:hover {
+  background-color: #f0faf8;
+  color: #2eb89f;
+}
+
+.de-dropdown-item.de-dropdown-item-active {
+  background-color: #e8f5f1;
+  color: #1f8b7f;
+  font-weight: 700;
+}
+
+/* 特約商店連結樣式 */
+.de-nav-link {
+  text-decoration: none !important;
+}
+
+/* 響應式：小螢幕 */
+@media (max-width: 768px) {
+  .de-navbar-top {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .de-action-buttons {
+    gap: 4px;
+  }
+  
+  .de-btn-link {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .de-btn-line {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .de-navbar {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .de-nav-item {
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .de-logo-main {
+    font-size: 18px;
+  }
+  
+  .de-logo-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+  }
+}
+
+  </style>
+</head>
 
   <body>
     <script id="manus-runtime">window.__MANUS_HOST_DEV__ = false;
@@ -89,6 +381,245 @@ Error generating stack: `+l.message+`
       defer
       src="%VITE_ANALYTICS_ENDPOINT%/umami"
       data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
-  </body>
+  
+  <!-- DE Navbar Inject JS -->
+  <script id="de-navbar-script">
+
+// 注入式導覽列重構腳本
+// 等待 React 渲染完成後，替換原有的 header/nav 為新的下拉式選單
+
+(function() {
+  'use strict';
+
+  // 等待 React 渲染完成
+  function waitForReact(callback, maxWait) {
+    var startTime = Date.now();
+    var interval = setInterval(function() {
+      var header = document.querySelector('header');
+      var nav = header && header.querySelector('nav');
+      if (nav && nav.querySelectorAll('button').length > 0) {
+        clearInterval(interval);
+        callback();
+      } else if (Date.now() - startTime > (maxWait || 8000)) {
+        clearInterval(interval);
+        console.log('[NavbarInject] Timeout waiting for React');
+      }
+    }, 100);
+  }
+
+  // 取得原始 section 切換函數（透過點擊原有按鈕來觸發）
+  function getOriginalNavButtons() {
+    var header = document.querySelector('header');
+    if (!header) return null;
+    var nav = header.querySelector('nav');
+    if (!nav) return null;
+    return nav.querySelectorAll('button');
+  }
+
+  // 點擊對應的原始按鈕來切換 section
+  function navigateTo(section) {
+    var buttons = getOriginalNavButtons();
+    if (!buttons) return;
+    var sectionMap = {
+      'home': 0,
+      'taoyuan': 1,
+      'parks': 2,
+      'childcare': 3,
+      'libraries': 4,
+      'arts': 5,
+      'transportation': 6,
+      'daily': 7
+    };
+    var idx = sectionMap[section];
+    if (idx !== undefined && buttons[idx]) {
+      buttons[idx].click();
+    }
+  }
+
+  function injectNavbar() {
+    var header = document.querySelector('header');
+    if (!header) return;
+
+    // 取得原始容器 div（container py-4）
+    var container = header.querySelector('.container');
+    if (!container) return;
+
+    // 建立新的 header 內容
+    var newContent = document.createElement('div');
+    newContent.className = 'de-navbar-wrapper';
+    newContent.innerHTML = `
+      <div class="de-navbar-top">
+        <!-- Logo 區 -->
+        <div class="de-logo-area">
+          <div class="de-logo-icon">DE</div>
+          <div class="de-logo-text">
+            <div class="de-logo-title">
+              <span class="de-logo-main">桃園報馬仔</span>
+              <span class="de-logo-sub">/ 夢想不動產</span>
+            </div>
+            <p class="de-logo-tagline">來桃園找個家</p>
+          </div>
+        </div>
+        <!-- 右側按鈕區 -->
+        <div class="de-action-buttons">
+          <a href="https://www.dreamestate.com.tw/" target="_blank" class="de-btn-link">🌐 官網</a>
+          <a href="https://www.facebook.com/tthedreamestate/" target="_blank" class="de-btn-link">👍 粉專</a>
+          <a href="https://page.line.me/768fuhqm" target="_blank" class="de-btn-line">💬 加 LINE</a>
+        </div>
+      </div>
+      <!-- 導覽列 -->
+      <nav class="de-navbar">
+        <!-- 首頁 -->
+        <button class="de-nav-item de-nav-direct" data-section="home">🏠 首頁</button>
+
+        <!-- 認識桃園（下拉） -->
+        <div class="de-nav-dropdown-wrap">
+          <button class="de-nav-item de-nav-has-dropdown" data-group="taoyuan">
+            📍 認識桃園 <span class="de-dropdown-arrow">▾</span>
+          </button>
+          <div class="de-dropdown-menu" id="dropdown-taoyuan">
+            <button class="de-dropdown-item" data-section="taoyuan">📜 歷史地理</button>
+            <button class="de-dropdown-item" data-section="transportation">🚄 交通建設</button>
+            <button class="de-dropdown-item de-dropdown-item-special" onclick="window.open('https://www.tycg.gov.tw/', '_blank')">💰 相關補助</button>
+          </div>
+        </div>
+
+        <!-- 休閒探索（下拉） -->
+        <div class="de-nav-dropdown-wrap">
+          <button class="de-nav-item de-nav-has-dropdown" data-group="leisure">
+            🎡 休閒探索 <span class="de-dropdown-arrow">▾</span>
+          </button>
+          <div class="de-dropdown-menu" id="dropdown-leisure">
+            <button class="de-dropdown-item" data-section="parks">🌳 特色公園</button>
+            <button class="de-dropdown-item" data-section="childcare">👶 親子與圖書館</button>
+            <button class="de-dropdown-item" data-section="arts">🎨 藝文活動</button>
+            <button class="de-dropdown-item" data-section="daily">🗞️ 每日報馬仔</button>
+          </div>
+        </div>
+
+        <!-- 特約商店 -->
+        <a href="/partner-shops" class="de-nav-item de-nav-direct de-nav-link">🎁 特約商店</a>
+      </nav>
+    `;
+
+    // 替換 container 內容
+    container.innerHTML = '';
+    container.appendChild(newContent);
+
+    // 事件綁定：直接導航按鈕
+    container.querySelectorAll('.de-nav-direct[data-section]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var section = this.getAttribute('data-section');
+        navigateTo(section);
+        updateActiveState(section);
+      });
+    });
+
+    // 事件綁定：下拉選單子項目
+    container.querySelectorAll('.de-dropdown-item[data-section]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var section = this.getAttribute('data-section');
+        navigateTo(section);
+        updateActiveState(section);
+        // 關閉下拉選單
+        closeAllDropdowns();
+      });
+    });
+
+    // 事件綁定：下拉選單觸發按鈕（hover 和 click）
+    container.querySelectorAll('.de-nav-has-dropdown').forEach(function(btn) {
+      var wrap = btn.closest('.de-nav-dropdown-wrap');
+      var group = btn.getAttribute('data-group');
+      var menu = document.getElementById('dropdown-' + group);
+
+      // 點擊切換
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var isOpen = menu.classList.contains('de-dropdown-open');
+        closeAllDropdowns();
+        if (!isOpen) {
+          menu.classList.add('de-dropdown-open');
+          btn.classList.add('de-nav-item-open');
+        }
+      });
+    });
+
+    // 點擊其他地方關閉下拉選單
+    document.addEventListener('click', function() {
+      closeAllDropdowns();
+    });
+
+    // 設定初始 active 狀態
+    updateActiveState('home');
+
+    console.log('[NavbarInject] 導覽列重構完成！');
+  }
+
+  function closeAllDropdowns() {
+    document.querySelectorAll('.de-dropdown-menu').forEach(function(m) {
+      m.classList.remove('de-dropdown-open');
+    });
+    document.querySelectorAll('.de-nav-has-dropdown').forEach(function(b) {
+      b.classList.remove('de-nav-item-open');
+    });
+  }
+
+  function updateActiveState(section) {
+    // 移除所有 active
+    document.querySelectorAll('.de-nav-item').forEach(function(btn) {
+      btn.classList.remove('de-nav-active');
+    });
+    document.querySelectorAll('.de-dropdown-item').forEach(function(btn) {
+      btn.classList.remove('de-dropdown-item-active');
+    });
+
+    // 設定 active
+    var sectionToGroup = {
+      'taoyuan': 'taoyuan',
+      'transportation': 'taoyuan',
+      'parks': 'leisure',
+      'childcare': 'leisure',
+      'libraries': 'leisure',
+      'arts': 'leisure',
+      'daily': 'leisure'
+    };
+
+    if (section === 'home') {
+      var homeBtn = document.querySelector('.de-nav-direct[data-section="home"]');
+      if (homeBtn) homeBtn.classList.add('de-nav-active');
+    } else if (sectionToGroup[section]) {
+      var group = sectionToGroup[section];
+      var groupBtn = document.querySelector('.de-nav-has-dropdown[data-group="' + group + '"]');
+      if (groupBtn) groupBtn.classList.add('de-nav-active');
+      var subBtn = document.querySelector('.de-dropdown-item[data-section="' + section + '"]');
+      if (subBtn) subBtn.classList.add('de-dropdown-item-active');
+    }
+  }
+
+  // 監聽 React 重新渲染（React 可能會重新渲染 header）
+  var observer = new MutationObserver(function(mutations) {
+    for (var i = 0; i < mutations.length; i++) {
+      var target = mutations[i].target;
+      if (target.closest && target.closest('header') && !target.closest('.de-navbar-wrapper')) {
+        // React 重新渲染了 header，需要重新注入
+        setTimeout(injectNavbar, 50);
+        break;
+      }
+    }
+  });
+
+  waitForReact(function() {
+    injectNavbar();
+    // 監聽 header 的變化
+    var header = document.querySelector('header');
+    if (header) {
+      observer.observe(header, { childList: true, subtree: true });
+    }
+  });
+
+})();
+
+  </script>
+</body>
 
 </html>
