@@ -25,7 +25,7 @@
   <!-- DE Navbar Inject CSS -->
   <style id="de-navbar-styles">
 
-/* ===== 夢想不動產 DE 導覽列重構樣式 ===== */
+/* ===== 夢想不動產 DE 導覽列重構樣式 v2（修復版）===== */
 
 /* 整體 wrapper */
 .de-navbar-wrapper {
@@ -115,9 +115,10 @@
   font-weight: 600;
   border-radius: 8px;
   text-decoration: none;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.2s ease;
   white-space: nowrap;
   line-height: 1;
+  cursor: pointer;
 }
 
 .de-btn-link:hover {
@@ -140,6 +141,7 @@
   box-shadow: 0 2px 8px rgba(46, 184, 159, 0.35);
   white-space: nowrap;
   line-height: 1;
+  cursor: pointer;
 }
 
 .de-btn-line:hover {
@@ -180,6 +182,7 @@
   white-space: nowrap;
   line-height: 1;
   text-decoration: none;
+  font-family: inherit;
 }
 
 .de-nav-item:hover {
@@ -209,12 +212,12 @@
   transform: rotate(180deg);
 }
 
-/* 下拉選單 */
+/* 下拉選單 - 修復閃退：用 padding-top 填補按鈕和選單之間的空隙 */
 .de-dropdown-menu {
   position: absolute;
-  top: calc(100% + 6px);
+  top: 100%;
   left: 0;
-  min-width: 180px;
+  min-width: 190px;
   background: white;
   border: 1px solid #d4ede8;
   border-radius: 12px;
@@ -222,9 +225,22 @@
   padding: 6px;
   z-index: 1000;
   opacity: 0;
-  transform: translateY(-8px) scale(0.97);
+  transform: translateY(-6px) scale(0.97);
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  /* 關鍵修復：用 margin-top 代替 top 偏移，避免空隙 */
+  margin-top: 4px;
+}
+
+/* 在選單上方加一個透明的「橋接區」，防止滑鼠移動時選單消失 */
+.de-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: transparent;
 }
 
 .de-dropdown-menu.de-dropdown-open {
@@ -245,16 +261,18 @@
   background: transparent;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
+  cursor: pointer !important;
   text-align: left;
   transition: all 0.15s ease;
   line-height: 1;
   white-space: nowrap;
+  font-family: inherit;
 }
 
 .de-dropdown-item:hover {
   background-color: #f0faf8;
   color: #2eb89f;
+  cursor: pointer !important;
 }
 
 .de-dropdown-item.de-dropdown-item-active {
@@ -263,37 +281,32 @@
   font-weight: 700;
 }
 
-/* 特約商店連結樣式 */
-.de-nav-link {
-  text-decoration: none !important;
-}
-
 /* 響應式：小螢幕 */
 @media (max-width: 768px) {
   .de-navbar-top {
     flex-wrap: wrap;
     gap: 8px;
   }
-  
+
   .de-action-buttons {
     gap: 4px;
   }
-  
+
   .de-btn-link {
     padding: 6px 10px;
     font-size: 12px;
   }
-  
+
   .de-btn-line {
     padding: 6px 12px;
     font-size: 12px;
   }
-  
+
   .de-navbar {
     flex-wrap: wrap;
     gap: 4px;
   }
-  
+
   .de-nav-item {
     padding: 7px 10px;
     font-size: 13px;
@@ -304,7 +317,7 @@
   .de-logo-main {
     font-size: 18px;
   }
-  
+
   .de-logo-icon {
     width: 40px;
     height: 40px;
@@ -385,8 +398,11 @@ Error generating stack: `+l.message+`
   <!-- DE Navbar Inject JS -->
   <script id="de-navbar-script">
 
-// 注入式導覽列重構腳本
-// 等待 React 渲染完成後，替換原有的 header/nav 為新的下拉式選單
+// 注入式導覽列重構腳本 v2（修復版）
+// Bug 修復：
+// 1. 補齊 4 大主軸（首頁、認識桃園、休閒探索、特約商店）
+// 2. 下拉選單改為點擊展開（避免 hover 閃退問題）
+// 3. 所有子項目加 cursor:pointer 和 href="#"
 
 (function() {
   'use strict';
@@ -402,24 +418,17 @@ Error generating stack: `+l.message+`
         callback();
       } else if (Date.now() - startTime > (maxWait || 8000)) {
         clearInterval(interval);
-        console.log('[NavbarInject] Timeout waiting for React');
       }
     }, 100);
   }
 
-  // 取得原始 section 切換函數（透過點擊原有按鈕來觸發）
-  function getOriginalNavButtons() {
-    var header = document.querySelector('header');
-    if (!header) return null;
-    var nav = header.querySelector('nav');
-    if (!nav) return null;
-    return nav.querySelectorAll('button');
-  }
-
   // 點擊對應的原始按鈕來切換 section
   function navigateTo(section) {
-    var buttons = getOriginalNavButtons();
-    if (!buttons) return;
+    var header = document.querySelector('header');
+    if (!header) return;
+    var nav = header.querySelector('nav');
+    if (!nav) return;
+    var buttons = nav.querySelectorAll('button');
     var sectionMap = {
       'home': 0,
       'taoyuan': 1,
@@ -440,6 +449,12 @@ Error generating stack: `+l.message+`
     var header = document.querySelector('header');
     if (!header) return;
 
+    // 如果已注入過，先移除舊的
+    var existing = header.querySelector('.de-navbar-wrapper');
+    if (existing) {
+      existing.remove();
+    }
+
     // 取得原始容器 div（container py-4）
     var container = header.querySelector('.container');
     if (!container) return;
@@ -447,66 +462,65 @@ Error generating stack: `+l.message+`
     // 建立新的 header 內容
     var newContent = document.createElement('div');
     newContent.className = 'de-navbar-wrapper';
-    newContent.innerHTML = `
-      <div class="de-navbar-top">
-        <!-- Logo 區 -->
-        <div class="de-logo-area">
-          <div class="de-logo-icon">DE</div>
-          <div class="de-logo-text">
-            <div class="de-logo-title">
-              <span class="de-logo-main">桃園報馬仔</span>
-              <span class="de-logo-sub">/ 夢想不動產</span>
-            </div>
-            <p class="de-logo-tagline">來桃園找個家</p>
-          </div>
-        </div>
-        <!-- 右側按鈕區 -->
-        <div class="de-action-buttons">
-          <a href="https://www.dreamestate.com.tw/" target="_blank" class="de-btn-link">🌐 官網</a>
-          <a href="https://www.facebook.com/tthedreamestate/" target="_blank" class="de-btn-link">👍 粉專</a>
-          <a href="https://page.line.me/768fuhqm" target="_blank" class="de-btn-line">💬 加 LINE</a>
-        </div>
-      </div>
-      <!-- 導覽列 -->
-      <nav class="de-navbar">
-        <!-- 首頁 -->
-        <button class="de-nav-item de-nav-direct" data-section="home">🏠 首頁</button>
+    newContent.innerHTML = [
+      '<div class="de-navbar-top">',
+        '<div class="de-logo-area">',
+          '<div class="de-logo-icon">DE</div>',
+          '<div class="de-logo-text">',
+            '<div class="de-logo-title">',
+              '<span class="de-logo-main">桃園報馬仔</span>',
+              '<span class="de-logo-sub">/ 夢想不動產</span>',
+            '</div>',
+            '<p class="de-logo-tagline">來桃園找個家</p>',
+          '</div>',
+        '</div>',
+        '<div class="de-action-buttons">',
+          '<a href="https://www.dreamestate.com.tw/" target="_blank" class="de-btn-link">🌐 官網</a>',
+          '<a href="https://www.facebook.com/tthedreamestate/" target="_blank" class="de-btn-link">👍 粉專</a>',
+          '<a href="https://page.line.me/768fuhqm" target="_blank" class="de-btn-line">💬 加 LINE</a>',
+        '</div>',
+      '</div>',
+      '<nav class="de-navbar">',
+        // 1. 首頁
+        '<button class="de-nav-item de-nav-direct" data-section="home">🏠 首頁</button>',
 
-        <!-- 認識桃園（下拉） -->
-        <div class="de-nav-dropdown-wrap">
-          <button class="de-nav-item de-nav-has-dropdown" data-group="taoyuan">
-            📍 認識桃園 <span class="de-dropdown-arrow">▾</span>
-          </button>
-          <div class="de-dropdown-menu" id="dropdown-taoyuan">
-            <button class="de-dropdown-item" data-section="taoyuan">📜 歷史地理</button>
-            <button class="de-dropdown-item" data-section="transportation">🚄 交通建設</button>
-            <button class="de-dropdown-item de-dropdown-item-special" onclick="window.open('https://www.tycg.gov.tw/', '_blank')">💰 相關補助</button>
-          </div>
-        </div>
+        // 2. 認識桃園（下拉）
+        '<div class="de-nav-dropdown-wrap" id="wrap-taoyuan">',
+          '<button class="de-nav-item de-nav-has-dropdown" data-group="taoyuan">',
+            '📍 認識桃園 <span class="de-dropdown-arrow">▾</span>',
+          '</button>',
+          '<div class="de-dropdown-menu" id="dropdown-taoyuan">',
+            '<button class="de-dropdown-item" data-section="taoyuan">📜 歷史地理</button>',
+            '<button class="de-dropdown-item" data-section="transportation">🚄 交通建設</button>',
+            '<button class="de-dropdown-item de-dropdown-item-ext" data-href="https://www.tycg.gov.tw/">💰 相關補助</button>',
+          '</div>',
+        '</div>',
 
-        <!-- 休閒探索（下拉） -->
-        <div class="de-nav-dropdown-wrap">
-          <button class="de-nav-item de-nav-has-dropdown" data-group="leisure">
-            🎡 休閒探索 <span class="de-dropdown-arrow">▾</span>
-          </button>
-          <div class="de-dropdown-menu" id="dropdown-leisure">
-            <button class="de-dropdown-item" data-section="parks">🌳 特色公園</button>
-            <button class="de-dropdown-item" data-section="childcare">👶 親子與圖書館</button>
-            <button class="de-dropdown-item" data-section="arts">🎨 藝文活動</button>
-            <button class="de-dropdown-item" data-section="daily">🗞️ 每日報馬仔</button>
-          </div>
-        </div>
+        // 3. 休閒探索（下拉）
+        '<div class="de-nav-dropdown-wrap" id="wrap-leisure">',
+          '<button class="de-nav-item de-nav-has-dropdown" data-group="leisure">',
+            '🎡 休閒探索 <span class="de-dropdown-arrow">▾</span>',
+          '</button>',
+          '<div class="de-dropdown-menu" id="dropdown-leisure">',
+            '<button class="de-dropdown-item" data-section="parks">🌳 特色公園</button>',
+            '<button class="de-dropdown-item" data-section="childcare">👶 親子與圖書館</button>',
+            '<button class="de-dropdown-item" data-section="arts">🎨 藝文活動</button>',
+            '<button class="de-dropdown-item" data-section="daily">🗞️ 每日報馬仔</button>',
+          '</div>',
+        '</div>',
 
-        <!-- 特約商店 -->
-        <a href="/partner-shops" class="de-nav-item de-nav-direct de-nav-link">🎁 特約商店</a>
-      </nav>
-    `;
+        // 4. 特約商店
+        '<button class="de-nav-item de-nav-direct de-nav-partner" data-href="/partner-shops">🎁 特約商店</button>',
+      '</nav>'
+    ].join('');
 
     // 替換 container 內容
     container.innerHTML = '';
     container.appendChild(newContent);
 
-    // 事件綁定：直接導航按鈕
+    // === 事件綁定 ===
+
+    // 1. 首頁按鈕
     container.querySelectorAll('.de-nav-direct[data-section]').forEach(function(btn) {
       btn.addEventListener('click', function() {
         var section = this.getAttribute('data-section');
@@ -515,24 +529,38 @@ Error generating stack: `+l.message+`
       });
     });
 
-    // 事件綁定：下拉選單子項目
+    // 2. 特約商店（用 data-href 跳轉）
+    container.querySelectorAll('.de-nav-direct[data-href]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var href = this.getAttribute('data-href');
+        window.location.href = href;
+      });
+    });
+
+    // 3. 下拉選單子項目（切換 section）
     container.querySelectorAll('.de-dropdown-item[data-section]').forEach(function(btn) {
       btn.addEventListener('click', function() {
         var section = this.getAttribute('data-section');
         navigateTo(section);
         updateActiveState(section);
-        // 關閉下拉選單
         closeAllDropdowns();
       });
     });
 
-    // 事件綁定：下拉選單觸發按鈕（hover 和 click）
+    // 4. 下拉選單子項目（外部連結）
+    container.querySelectorAll('.de-dropdown-item-ext').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var href = this.getAttribute('data-href');
+        if (href) window.open(href, '_blank');
+        closeAllDropdowns();
+      });
+    });
+
+    // 5. 下拉選單觸發按鈕（點擊展開/收合）
     container.querySelectorAll('.de-nav-has-dropdown').forEach(function(btn) {
-      var wrap = btn.closest('.de-nav-dropdown-wrap');
       var group = btn.getAttribute('data-group');
       var menu = document.getElementById('dropdown-' + group);
 
-      // 點擊切換
       btn.addEventListener('click', function(e) {
         e.stopPropagation();
         var isOpen = menu.classList.contains('de-dropdown-open');
@@ -544,15 +572,15 @@ Error generating stack: `+l.message+`
       });
     });
 
-    // 點擊其他地方關閉下拉選單
-    document.addEventListener('click', function() {
-      closeAllDropdowns();
+    // 6. 點擊其他地方關閉下拉選單
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.de-nav-dropdown-wrap')) {
+        closeAllDropdowns();
+      }
     });
 
     // 設定初始 active 狀態
     updateActiveState('home');
-
-    console.log('[NavbarInject] 導覽列重構完成！');
   }
 
   function closeAllDropdowns() {
@@ -565,7 +593,6 @@ Error generating stack: `+l.message+`
   }
 
   function updateActiveState(section) {
-    // 移除所有 active
     document.querySelectorAll('.de-nav-item').forEach(function(btn) {
       btn.classList.remove('de-nav-active');
     });
@@ -573,7 +600,6 @@ Error generating stack: `+l.message+`
       btn.classList.remove('de-dropdown-item-active');
     });
 
-    // 設定 active
     var sectionToGroup = {
       'taoyuan': 'taoyuan',
       'transportation': 'taoyuan',
@@ -596,13 +622,18 @@ Error generating stack: `+l.message+`
     }
   }
 
-  // 監聽 React 重新渲染（React 可能會重新渲染 header）
+  // 防止 React 重新渲染覆蓋導覽列
+  var isInjecting = false;
   var observer = new MutationObserver(function(mutations) {
+    if (isInjecting) return;
     for (var i = 0; i < mutations.length; i++) {
       var target = mutations[i].target;
-      if (target.closest && target.closest('header') && !target.closest('.de-navbar-wrapper')) {
-        // React 重新渲染了 header，需要重新注入
-        setTimeout(injectNavbar, 50);
+      if (target && target.closest && target.closest('header') && !document.querySelector('.de-navbar-wrapper')) {
+        isInjecting = true;
+        setTimeout(function() {
+          injectNavbar();
+          isInjecting = false;
+        }, 50);
         break;
       }
     }
@@ -610,10 +641,9 @@ Error generating stack: `+l.message+`
 
   waitForReact(function() {
     injectNavbar();
-    // 監聽 header 的變化
     var header = document.querySelector('header');
     if (header) {
-      observer.observe(header, { childList: true, subtree: true });
+      observer.observe(header, { childList: true, subtree: false });
     }
   });
 
