@@ -738,10 +738,10 @@ Error generating stack: `+l.message+`
 
   </script>
 
-  <!-- DE 第一階段：歷史地理 + 交通建設 注入腳本 -->
+  <!-- DE 第一階段：歷史地理 + 交通建設 注入腳本 v2 -->
   <script id="de-sections-inject">
-// 夢想不動產 DE 第一階段：歷史地理 + 交通建設 注入腳本 v1
-// 策略：監聽 section 切換，在 taoyuan/transportation section 頂部插入精裝卡片
+// 夢想不動產 DE 第一階段：歷史地理 + 交通建設 注入腳本 v2
+// 使用精確 closest('div.space-y-12') 定位注入位置
 (function() {
   'use strict';
 
@@ -750,566 +750,227 @@ Error generating stack: `+l.message+`
 
   // ===== 歷史時間軸 HTML =====
   function getHistoryHTML() {
-    return `
-<div id="de-history-inject" style="
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(46,184,159,0.10);
-  border: 1px solid #e8f5f1;
-  padding: 40px;
-  margin-bottom: 32px;
-">
-  <h3 style="
-    font-size: 1.875rem;
-    font-weight: 700;
-    background: linear-gradient(to right, #2eb89f, #1f8b7f);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 8px;
-  ">📜 桃仔園的故事</h3>
-  <p style="color:#6b7280;font-size:0.95rem;margin-bottom:32px;">從虎茅莊到現代桃園，走過三百年的歷史足跡</p>
-
-  <!-- 時間軸 -->
-  <div style="position:relative;padding-left:32px;">
-    <!-- 垂直線 -->
-    <div style="
-      position:absolute;left:12px;top:8px;bottom:8px;
-      width:3px;
-      background:linear-gradient(to bottom,#2eb89f,#a8d5ce,#e8f5f1);
-      border-radius:2px;
-    "></div>
-
-    <!-- 節點 1：雍正四年 -->
-    <div style="position:relative;margin-bottom:28px;">
-      <div style="
-        position:absolute;left:-26px;top:4px;
-        width:16px;height:16px;
-        background:#2eb89f;border-radius:50%;
-        border:3px solid white;
-        box-shadow:0 0 0 3px #a8d5ce;
-      "></div>
-      <div style="
-        background:linear-gradient(135deg,#f0faf8,#fff);
-        border:1px solid #d4ede8;
-        border-radius:12px;
-        padding:16px 20px;
-      ">
-        <div style="
-          display:inline-block;
-          background:#2eb89f;color:white;
-          font-size:0.75rem;font-weight:700;
-          padding:3px 10px;border-radius:20px;
-          margin-bottom:8px;
-        ">雍正四年（1726）</div>
-        <h4 style="font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 6px;">虎茅莊時期</h4>
-        <p style="font-size:0.875rem;color:#4b5563;margin:0;line-height:1.6;">
-          首有漢人入墾，初稱「虎茅莊」，因茅草叢生如虎傷人而得名，為桃園開發之始。
-        </p>
-      </div>
-    </div>
-
-    <!-- 節點 2：乾隆年間 -->
-    <div style="position:relative;margin-bottom:28px;">
-      <div style="
-        position:absolute;left:-26px;top:4px;
-        width:16px;height:16px;
-        background:#2eb89f;border-radius:50%;
-        border:3px solid white;
-        box-shadow:0 0 0 3px #a8d5ce;
-      "></div>
-      <div style="
-        background:linear-gradient(135deg,#f0faf8,#fff);
-        border:1px solid #d4ede8;
-        border-radius:12px;
-        padding:16px 20px;
-      ">
-        <div style="
-          display:inline-block;
-          background:#2eb89f;color:white;
-          font-size:0.75rem;font-weight:700;
-          padding:3px 10px;border-radius:20px;
-          margin-bottom:8px;
-        ">乾隆年間（1747–1774）</div>
-        <h4 style="font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 6px;">桃仔園誕生</h4>
-        <p style="font-size:0.875rem;color:#4b5563;margin:0;line-height:1.6;">
-          薛啟隆大肆開墾，移民遍植桃樹，花開時節紅雲搖曳，美景動人，改稱「桃仔園」，地名由此而來。
-        </p>
-      </div>
-    </div>
-
-    <!-- 節點 3：光緒十四年 -->
-    <div style="position:relative;margin-bottom:28px;">
-      <div style="
-        position:absolute;left:-26px;top:4px;
-        width:16px;height:16px;
-        background:#2eb89f;border-radius:50%;
-        border:3px solid white;
-        box-shadow:0 0 0 3px #a8d5ce;
-      "></div>
-      <div style="
-        background:linear-gradient(135deg,#f0faf8,#fff);
-        border:1px solid #d4ede8;
-        border-radius:12px;
-        padding:16px 20px;
-      ">
-        <div style="
-          display:inline-block;
-          background:#2eb89f;color:white;
-          font-size:0.75rem;font-weight:700;
-          padding:3px 10px;border-radius:20px;
-          margin-bottom:8px;
-        ">光緒十四年（1888）</div>
-        <h4 style="font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 6px;">正式定名「桃園」</h4>
-        <p style="font-size:0.875rem;color:#4b5563;margin:0;line-height:1.6;">
-          劉銘傳清丈魚鱗冊，正式登載為「桃園」，確立現代地名，奠定行政基礎。
-        </p>
-      </div>
-    </div>
-
-    <!-- 節點 4：民國 57 年 -->
-    <div style="position:relative;margin-bottom:28px;">
-      <div style="
-        position:absolute;left:-26px;top:4px;
-        width:16px;height:16px;
-        background:#2eb89f;border-radius:50%;
-        border:3px solid white;
-        box-shadow:0 0 0 3px #a8d5ce;
-      "></div>
-      <div style="
-        background:linear-gradient(135deg,#f0faf8,#fff);
-        border:1px solid #d4ede8;
-        border-radius:12px;
-        padding:16px 20px;
-      ">
-        <div style="
-          display:inline-block;
-          background:#2eb89f;color:white;
-          font-size:0.75rem;font-weight:700;
-          padding:3px 10px;border-radius:20px;
-          margin-bottom:8px;
-        ">民國 57 年（1968）</div>
-        <h4 style="font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 6px;">升格縣轄市</h4>
-        <p style="font-size:0.875rem;color:#4b5563;margin:0;line-height:1.6;">
-          正式升格為縣轄市，成立桃園市，奠定現代行政格局，開啟城市發展新篇章。
-        </p>
-      </div>
-    </div>
-
-    <!-- 節點 5（品牌）：現在 -->
-    <div style="position:relative;">
-      <div style="
-        position:absolute;left:-26px;top:4px;
-        width:16px;height:16px;
-        background:linear-gradient(135deg,#2eb89f,#1f8b7f);
-        border-radius:50%;
-        border:3px solid white;
-        box-shadow:0 0 0 3px #2eb89f;
-      "></div>
-      <div style="
-        background:linear-gradient(135deg,#2eb89f,#1f8b7f);
-        border-radius:12px;
-        padding:16px 20px;
-      ">
-        <div style="
-          display:inline-block;
-          background:rgba(255,255,255,0.25);color:white;
-          font-size:0.75rem;font-weight:700;
-          padding:3px 10px;border-radius:20px;
-          margin-bottom:8px;
-        ">現在</div>
-        <h4 style="font-size:1rem;font-weight:700;color:white;margin:0 0 6px;">🏡 夢想不動產與您深耕桃園</h4>
-        <p style="font-size:0.875rem;color:rgba(255,255,255,0.9);margin:0;line-height:1.6;">
-          三百年歷史孕育的這片土地，如今是您安家立業的最佳選擇。夢想不動產陪您在這裡找到屬於自己的故事。
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- 出處標註 -->
-  <div style="
-    text-align:right;margin-top:20px;
-    font-size:12px;color:#9ca3af;
-  ">
-    來源出處：桃園市政府桃園區公所 — 桃仔園的緣由
-  </div>
-</div>`;
+    return '<div id="de-history-inject" style="background:white;border-radius:16px;box-shadow:0 4px 24px rgba(46,184,159,0.10);border:1px solid #e8f5f1;padding:40px;margin-bottom:32px;">' +
+      '<h3 style="font-size:1.875rem;font-weight:700;background:linear-gradient(to right,#2eb89f,#1f8b7f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;">📜 桃仔園的故事</h3>' +
+      '<p style="color:#6b7280;font-size:0.95rem;margin-bottom:32px;">從虎茅莊到現代桃園，走過三百年的歷史足跡</p>' +
+      '<div style="position:relative;padding-left:32px;">' +
+        '<div style="position:absolute;left:12px;top:8px;bottom:8px;width:3px;background:linear-gradient(to bottom,#2eb89f,#a8d5ce,#e8f5f1);border-radius:2px;"></div>' +
+        // 節點 1
+        '<div style="position:relative;margin-bottom:28px;">' +
+          '<div style="position:absolute;left:-26px;top:4px;width:16px;height:16px;background:#2eb89f;border-radius:50%;border:3px solid white;box-shadow:0 0 0 3px #a8d5ce;"></div>' +
+          '<div style="background:linear-gradient(135deg,#f0faf8,#fff);border:1px solid #d4ede8;border-radius:12px;padding:16px 20px;">' +
+            '<div style="display:inline-block;background:#2eb89f;color:white;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px;">雍正四年（1726）</div>' +
+            '<h4 style="font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 6px;">虎茅莊時期</h4>' +
+            '<p style="font-size:0.875rem;color:#4b5563;margin:0;line-height:1.6;">首有漢人入墾，初稱「虎茅莊」，因茅草叢生如虎傷人而得名，為桃園開發之始。</p>' +
+          '</div>' +
+        '</div>' +
+        // 節點 2
+        '<div style="position:relative;margin-bottom:28px;">' +
+          '<div style="position:absolute;left:-26px;top:4px;width:16px;height:16px;background:#2eb89f;border-radius:50%;border:3px solid white;box-shadow:0 0 0 3px #a8d5ce;"></div>' +
+          '<div style="background:linear-gradient(135deg,#f0faf8,#fff);border:1px solid #d4ede8;border-radius:12px;padding:16px 20px;">' +
+            '<div style="display:inline-block;background:#2eb89f;color:white;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px;">乾隆年間（1747–1774）</div>' +
+            '<h4 style="font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 6px;">桃仔園誕生</h4>' +
+            '<p style="font-size:0.875rem;color:#4b5563;margin:0;line-height:1.6;">薛啟隆大肆開墾，移民遍植桃樹，花開時節紅雲搖曳，美景動人，改稱「桃仔園」，地名由此而來。</p>' +
+          '</div>' +
+        '</div>' +
+        // 節點 3
+        '<div style="position:relative;margin-bottom:28px;">' +
+          '<div style="position:absolute;left:-26px;top:4px;width:16px;height:16px;background:#2eb89f;border-radius:50%;border:3px solid white;box-shadow:0 0 0 3px #a8d5ce;"></div>' +
+          '<div style="background:linear-gradient(135deg,#f0faf8,#fff);border:1px solid #d4ede8;border-radius:12px;padding:16px 20px;">' +
+            '<div style="display:inline-block;background:#2eb89f;color:white;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px;">光緒十四年（1888）</div>' +
+            '<h4 style="font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 6px;">正式定名「桃園」</h4>' +
+            '<p style="font-size:0.875rem;color:#4b5563;margin:0;line-height:1.6;">劉銘傳清丈魚鱗冊，正式登載為「桃園」，確立現代地名，奠定行政基礎。</p>' +
+          '</div>' +
+        '</div>' +
+        // 節點 4
+        '<div style="position:relative;margin-bottom:28px;">' +
+          '<div style="position:absolute;left:-26px;top:4px;width:16px;height:16px;background:#2eb89f;border-radius:50%;border:3px solid white;box-shadow:0 0 0 3px #a8d5ce;"></div>' +
+          '<div style="background:linear-gradient(135deg,#f0faf8,#fff);border:1px solid #d4ede8;border-radius:12px;padding:16px 20px;">' +
+            '<div style="display:inline-block;background:#2eb89f;color:white;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px;">民國 57 年（1968）</div>' +
+            '<h4 style="font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 6px;">升格縣轄市</h4>' +
+            '<p style="font-size:0.875rem;color:#4b5563;margin:0;line-height:1.6;">正式升格為縣轄市，成立桃園市，奠定現代行政格局，開啟城市發展新篇章。</p>' +
+          '</div>' +
+        '</div>' +
+        // 節點 5（品牌）
+        '<div style="position:relative;">' +
+          '<div style="position:absolute;left:-26px;top:4px;width:16px;height:16px;background:linear-gradient(135deg,#2eb89f,#1f8b7f);border-radius:50%;border:3px solid white;box-shadow:0 0 0 3px #2eb89f;"></div>' +
+          '<div style="background:linear-gradient(135deg,#2eb89f,#1f8b7f);border-radius:12px;padding:16px 20px;">' +
+            '<div style="display:inline-block;background:rgba(255,255,255,0.25);color:white;font-size:0.75rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px;">現在</div>' +
+            '<h4 style="font-size:1rem;font-weight:700;color:white;margin:0 0 6px;">🏡 夢想不動產與您深耕桃園</h4>' +
+            '<p style="font-size:0.875rem;color:rgba(255,255,255,0.9);margin:0;line-height:1.6;">三百年歷史孕育的這片土地，如今是您安家立業的最佳選擇。夢想不動產陪您在這裡找到屬於自己的故事。</p>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="text-align:right;margin-top:20px;font-size:12px;color:#9ca3af;">來源出處：桃園市政府桃園區公所 — 桃仔園的緣由</div>' +
+    '</div>';
   }
 
   // ===== 三心六線交通進度 HTML =====
   function getTransportHTML() {
     var lines = [
-      {
-        name: '捷運機場線',
-        color: '#7c3aed',
-        bg: '#f5f3ff',
-        border: '#ddd6fe',
-        status: '✅ 通車營運',
-        statusColor: '#059669',
-        statusBg: '#d1fae5',
-        progress: 100,
-        progressColor: '#2eb89f',
-        desc: '106年3月2日通車，直達台北，全程40分鐘',
-        badge: '已通車'
-      },
-      {
-        name: '捷運綠線',
-        color: '#059669',
-        bg: '#f0fdf4',
-        border: '#bbf7d0',
-        status: '🔨 施工中',
-        statusColor: '#d97706',
-        statusBg: '#fef3c7',
-        progress: 68.27,
-        progressColor: '#2eb89f',
-        desc: '全長27.8公里，橫跨八德、桃園、蘆竹、大園，預計2026年底通車',
-        badge: '68.27%'
-      },
-      {
-        name: '桃園鐵路地下化',
-        color: '#dc2626',
-        bg: '#fef2f2',
-        border: '#fecaca',
-        status: '🔨 施工中',
-        statusColor: '#d97706',
-        statusBg: '#fef3c7',
-        progress: 35,
-        progressColor: '#2eb89f',
-        desc: '交通部鐵道局主辦，主體工程於111年4月起陸續招標中',
-        badge: '施工中'
-      },
-      {
-        name: '捷運棕線',
-        color: '#92400e',
-        bg: '#fffbeb',
-        border: '#fde68a',
-        status: '📋 工程招標',
-        statusColor: '#6b7280',
-        statusBg: '#f3f4f6',
-        progress: 15,
-        progressColor: '#d1d5db',
-        desc: '行政院公共工程委員會於115年1月6日同意工程經費審議',
-        badge: '招標中'
-      },
-      {
-        name: '捷運綠線延伸中壢',
-        color: '#065f46',
-        bg: '#f0fdf4',
-        border: '#bbf7d0',
-        status: '📋 工程招標',
-        statusColor: '#6b7280',
-        statusBg: '#f3f4f6',
-        progress: 10,
-        progressColor: '#d1d5db',
-        desc: '行政院公共工程委員會於114年5月6日同意工程經費審議',
-        badge: '招標中'
-      },
-      {
-        name: '捷運三鶯延伸八德',
-        color: '#1d4ed8',
-        bg: '#eff6ff',
-        border: '#bfdbfe',
-        status: '📐 綜合規劃',
-        statusColor: '#6b7280',
-        statusBg: '#f3f4f6',
-        progress: 5,
-        progressColor: '#d1d5db',
-        desc: '行政院公共工程委員會於115年2月24日提報修正報告',
-        badge: '規劃中'
-      }
+      { name:'捷運機場線', color:'#7c3aed', bg:'#f5f3ff', border:'#ddd6fe', status:'✅ 通車營運', statusColor:'#059669', statusBg:'#d1fae5', progress:100, progressColor:'#2eb89f', desc:'106年3月2日通車，直達台北，全程40分鐘', badge:'已通車' },
+      { name:'捷運綠線', color:'#059669', bg:'#f0fdf4', border:'#bbf7d0', status:'🔨 施工中', statusColor:'#d97706', statusBg:'#fef3c7', progress:68.27, progressColor:'#2eb89f', desc:'全長27.8公里，橫跨八德、桃園、蘆竹、大園，預計2026年底通車', badge:'68.27%' },
+      { name:'桃園鐵路地下化', color:'#dc2626', bg:'#fef2f2', border:'#fecaca', status:'🔨 施工中', statusColor:'#d97706', statusBg:'#fef3c7', progress:35, progressColor:'#2eb89f', desc:'交通部鐵道局主辦，主體工程於111年4月起陸續招標中', badge:'施工中' },
+      { name:'捷運棕線', color:'#92400e', bg:'#fffbeb', border:'#fde68a', status:'📋 工程招標', statusColor:'#6b7280', statusBg:'#f3f4f6', progress:15, progressColor:'#d1d5db', desc:'行政院公共工程委員會於115年1月6日同意工程經費審議', badge:'招標中' },
+      { name:'捷運綠線延伸中壢', color:'#065f46', bg:'#f0fdf4', border:'#bbf7d0', status:'📋 工程招標', statusColor:'#6b7280', statusBg:'#f3f4f6', progress:10, progressColor:'#d1d5db', desc:'行政院公共工程委員會於114年5月6日同意工程經費審議', badge:'招標中' },
+      { name:'捷運三鶯延伸八德', color:'#1d4ed8', bg:'#eff6ff', border:'#bfdbfe', status:'📐 綜合規劃', statusColor:'#6b7280', statusBg:'#f3f4f6', progress:5, progressColor:'#d1d5db', desc:'行政院公共工程委員會於115年2月24日提報修正報告', badge:'規劃中' }
     ];
 
     var cardsHTML = lines.map(function(line) {
-      return `
-<div style="
-  background:${line.bg};
-  border:1px solid ${line.border};
-  border-radius:12px;
-  padding:18px 20px;
-  margin-bottom:12px;
-">
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div style="
-        width:14px;height:14px;
-        background:${line.color};
-        border-radius:50%;
-        flex-shrink:0;
-      "></div>
-      <span style="font-size:1rem;font-weight:700;color:#1f2937;">${line.name}</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <span style="
-        font-size:0.75rem;font-weight:600;
-        color:${line.statusColor};
-        background:${line.statusBg};
-        padding:3px 10px;border-radius:20px;
-      ">${line.status}</span>
-    </div>
-  </div>
-  <!-- 進度條 -->
-  <div style="
-    background:#e5e7eb;
-    border-radius:999px;
-    height:10px;
-    margin-bottom:8px;
-    overflow:hidden;
-  ">
-    <div style="
-      height:100%;
-      width:${line.progress}%;
-      background:${line.progressColor};
-      border-radius:999px;
-      transition:width 0.8s ease;
-    "></div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
-    <p style="font-size:0.8rem;color:#6b7280;margin:0;flex:1;min-width:0;">${line.desc}</p>
-    <span style="font-size:0.8rem;font-weight:700;color:${line.progressColor};white-space:nowrap;margin-left:8px;">${line.badge}</span>
-  </div>
-</div>`;
+      return '<div style="background:' + line.bg + ';border:1px solid ' + line.border + ';border-radius:12px;padding:18px 20px;margin-bottom:12px;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">' +
+          '<div style="display:flex;align-items:center;gap:10px;">' +
+            '<div style="width:14px;height:14px;background:' + line.color + ';border-radius:50%;flex-shrink:0;"></div>' +
+            '<span style="font-size:1rem;font-weight:700;color:#1f2937;">' + line.name + '</span>' +
+          '</div>' +
+          '<span style="font-size:0.75rem;font-weight:600;color:' + line.statusColor + ';background:' + line.statusBg + ';padding:3px 10px;border-radius:20px;">' + line.status + '</span>' +
+        '</div>' +
+        '<div style="background:#e5e7eb;border-radius:999px;height:10px;margin-bottom:8px;overflow:hidden;">' +
+          '<div style="height:100%;width:' + line.progress + '%;background:' + line.progressColor + ';border-radius:999px;"></div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">' +
+          '<p style="font-size:0.8rem;color:#6b7280;margin:0;flex:1;min-width:0;">' + line.desc + '</p>' +
+          '<span style="font-size:0.8rem;font-weight:700;color:' + line.progressColor + ';white-space:nowrap;margin-left:8px;">' + line.badge + '</span>' +
+        '</div>' +
+      '</div>';
     }).join('');
 
-    return `
-<div id="de-transport-inject" style="
-  background:white;
-  border-radius:16px;
-  box-shadow:0 4px 24px rgba(46,184,159,0.10);
-  border:1px solid #e8f5f1;
-  padding:40px;
-  margin-bottom:32px;
-">
-  <h3 style="
-    font-size:1.875rem;
-    font-weight:700;
-    background:linear-gradient(to right,#2eb89f,#1f8b7f);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    margin-bottom:8px;
-  ">🚄 三心六線軌道建設進度</h3>
-  <p style="color:#6b7280;font-size:0.95rem;margin-bottom:8px;">
-    串聯<strong style="color:#2eb89f;">航空城、桃園、中壢</strong>三都心，六條軌道線路打造桃園新未來
-  </p>
-  <div style="
-    display:inline-flex;align-items:center;gap:16px;
-    background:#f0faf8;border-radius:10px;padding:8px 16px;
-    margin-bottom:28px;flex-wrap:wrap;gap:12px;
-  ">
-    <div style="display:flex;align-items:center;gap:6px;">
-      <div style="width:14px;height:10px;background:#2eb89f;border-radius:3px;"></div>
-      <span style="font-size:0.8rem;color:#374151;">施工中</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:6px;">
-      <div style="width:14px;height:10px;background:#d1d5db;border-radius:3px;"></div>
-      <span style="font-size:0.8rem;color:#374151;">規劃/招標中</span>
-    </div>
-  </div>
-
-  ${cardsHTML}
-
-  <!-- 路網圖 -->
-  <div style="margin-top:24px;">
-    <h4 style="font-size:1rem;font-weight:700;color:#1f2937;margin-bottom:12px;">🗺️ 三心六線路網示意圖</h4>
-    <div id="de-network-map-wrap" style="
-      border:1px solid #e8f5f1;
-      border-radius:12px;
-      overflow:hidden;
-      cursor:pointer;
-      position:relative;
-    " onclick="document.getElementById('de-map-modal').style.display='flex'">
-      <img
-        src="https://dreamestate-taoyuan.vercel.app/og_new.jpg"
-        id="de-network-map-img"
-        alt="三心六線路網進度圖"
-        style="width:100%;display:block;max-height:400px;object-fit:cover;"
-        onerror="this.style.display='none';document.getElementById('de-map-fallback').style.display='flex';"
-      />
-      <div id="de-map-fallback" style="
-        display:none;
-        background:linear-gradient(135deg,#f0faf8,#e8f5f1);
-        min-height:200px;
-        align-items:center;justify-content:center;
-        flex-direction:column;gap:12px;
-        padding:40px;text-align:center;
-      ">
-        <div style="font-size:3rem;">🚇</div>
-        <p style="color:#6b7280;font-size:0.9rem;margin:0;">
-          路網圖載入中，請點擊查看官方路網示意圖
-        </p>
-        <a href="https://dorts.tycg.gov.tw/cp.aspx?n=23173" target="_blank" style="
-          background:#2eb89f;color:white;
-          padding:8px 20px;border-radius:8px;
-          font-size:0.875rem;font-weight:600;
-          text-decoration:none;
-        ">查看官方路網圖 →</a>
-      </div>
-      <div style="
-        position:absolute;bottom:10px;right:10px;
-        background:rgba(0,0,0,0.5);color:white;
-        font-size:0.75rem;padding:4px 10px;border-radius:20px;
-      ">🔍 點擊放大</div>
-    </div>
-  </div>
-
-  <!-- 出處標註 -->
-  <div style="text-align:right;margin-top:20px;font-size:12px;color:#9ca3af;">
-    來源出處：桃園市政府捷運工程局 — 軌道建設進度總覽（115年2月更新）
-  </div>
-</div>
-
-<!-- Modal 放大路網圖 -->
-<div id="de-map-modal" style="
-  display:none;
-  position:fixed;inset:0;z-index:9999;
-  background:rgba(0,0,0,0.85);
-  align-items:center;justify-content:center;
-  padding:16px;
-" onclick="this.style.display='none'">
-  <div style="position:relative;max-width:95vw;max-height:95vh;" onclick="event.stopPropagation()">
-    <button onclick="document.getElementById('de-map-modal').style.display='none'" style="
-      position:absolute;top:-40px;right:0;
-      background:rgba(255,255,255,0.2);
-      border:none;color:white;
-      width:36px;height:36px;border-radius:50%;
-      font-size:1.2rem;cursor:pointer;
-      display:flex;align-items:center;justify-content:center;
-    ">✕</button>
-    <img
-      src="https://dreamestate-taoyuan.vercel.app/og_new.jpg"
-      alt="三心六線路網進度圖（放大）"
-      style="
-        max-width:95vw;max-height:90vh;
-        border-radius:12px;
-        display:block;
-        object-fit:contain;
-      "
-    />
-    <p style="color:rgba(255,255,255,0.7);text-align:center;font-size:0.8rem;margin-top:8px;">
-      來源：桃園市政府捷運工程局 | 點擊空白處關閉
-    </p>
-  </div>
-</div>`;
+    return '<div id="de-transport-inject" style="background:white;border-radius:16px;box-shadow:0 4px 24px rgba(46,184,159,0.10);border:1px solid #e8f5f1;padding:40px;margin-bottom:32px;">' +
+      '<h3 style="font-size:1.875rem;font-weight:700;background:linear-gradient(to right,#2eb89f,#1f8b7f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;">🚄 三心六線軌道建設進度</h3>' +
+      '<p style="color:#6b7280;font-size:0.95rem;margin-bottom:8px;">串聯<strong style="color:#2eb89f;">航空城、桃園、中壢</strong>三都心，六條軌道線路打造桃園新未來</p>' +
+      '<div style="display:inline-flex;align-items:center;background:#f0faf8;border-radius:10px;padding:8px 16px;margin-bottom:28px;flex-wrap:wrap;gap:12px;">' +
+        '<div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:10px;background:#2eb89f;border-radius:3px;"></div><span style="font-size:0.8rem;color:#374151;">施工中（薄荷綠）</span></div>' +
+        '<div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:10px;background:#d1d5db;border-radius:3px;"></div><span style="font-size:0.8rem;color:#374151;">規劃/招標中（淺灰）</span></div>' +
+      '</div>' +
+      cardsHTML +
+      '<div style="margin-top:24px;">' +
+        '<h4 style="font-size:1rem;font-weight:700;color:#1f2937;margin-bottom:12px;">🗺️ 三心六線路網示意圖</h4>' +
+        '<div id="de-network-map-wrap" style="border:1px solid #e8f5f1;border-radius:12px;overflow:hidden;cursor:pointer;position:relative;" onclick="document.getElementById(\'de-map-modal\').style.display=\'flex\'">' +
+          '<img src="https://dorts.tycg.gov.tw/images/content/2023/20230907_1.jpg" id="de-network-map-img" alt="三心六線路網進度圖" style="width:100%;display:block;max-height:400px;object-fit:contain;background:#f0faf8;" onerror="this.src=\'https://dreamestate-taoyuan.vercel.app/og_new.jpg\';" />' +
+          '<div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.5);color:white;font-size:0.75rem;padding:4px 10px;border-radius:20px;">🔍 點擊放大</div>' +
+        '</div>' +
+        '<p style="font-size:0.8rem;color:#6b7280;margin-top:8px;text-align:center;">點擊圖片可放大查看完整路網圖</p>' +
+      '</div>' +
+      '<div style="text-align:right;margin-top:20px;font-size:12px;color:#9ca3af;">來源出處：桃園市政府捷運工程局 — 軌道建設進度總覽（115年2月更新）</div>' +
+    '</div>' +
+    // Modal
+    '<div id="de-map-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;padding:16px;" onclick="this.style.display=\'none\'">' +
+      '<div style="position:relative;max-width:95vw;max-height:95vh;" onclick="event.stopPropagation()">' +
+        '<button onclick="document.getElementById(\'de-map-modal\').style.display=\'none\'" style="position:absolute;top:-40px;right:0;background:rgba(255,255,255,0.2);border:none;color:white;width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer;">✕</button>' +
+        '<img src="https://dorts.tycg.gov.tw/images/content/2023/20230907_1.jpg" alt="三心六線路網進度圖（放大）" style="max-width:95vw;max-height:90vh;border-radius:12px;display:block;object-fit:contain;" onerror="this.src=\'https://dreamestate-taoyuan.vercel.app/og_new.jpg\';" />' +
+        '<p style="color:rgba(255,255,255,0.7);text-align:center;font-size:0.8rem;margin-top:8px;">來源：桃園市政府捷運工程局 | 點擊空白處關閉</p>' +
+      '</div>' +
+    '</div>';
   }
 
-  // ===== 注入函數 =====
+  // ===== 注入歷史 section =====
   function injectHistorySection() {
-    if (INJECTED_HISTORY) return;
-    // 找 taoyuan section 的容器（space-y-12 div 下的第一個 section）
+    if (INJECTED_HISTORY || document.getElementById('de-history-inject')) return;
     var main = document.querySelector('main');
     if (!main) return;
-    // 找包含「認識 13 個行政區」的容器
-    var allSections = main.querySelectorAll('section, div');
-    var targetParent = null;
-    for (var i = 0; i < allSections.length; i++) {
-      var el = allSections[i];
-      if (el.textContent && el.textContent.includes('認識 13 個行政區') && el.children.length > 0) {
-        targetParent = el.parentElement;
+
+    // 找 h3「認識 13 個行政區」
+    var h3s = main.querySelectorAll('h3');
+    var targetH3 = null;
+    for (var i = 0; i < h3s.length; i++) {
+      if (h3s[i].textContent.includes('認識 13 個行政區')) {
+        targetH3 = h3s[i];
         break;
       }
     }
-    if (!targetParent) return;
+    if (!targetH3) return;
 
-    // 建立注入元素
+    // 往上找 div.space-y-12
+    var spaceDiv = targetH3.closest('div.space-y-12');
+    if (!spaceDiv) {
+      // 備用：找 section 的 parentElement
+      var sec = targetH3.closest('section');
+      if (sec) spaceDiv = sec.parentElement;
+    }
+    if (!spaceDiv) return;
+
     var div = document.createElement('div');
     div.innerHTML = getHistoryHTML();
-    var injected = div.firstElementChild;
-
-    // 插入到 targetParent 的第一個子元素之前
-    targetParent.insertBefore(injected, targetParent.firstChild);
+    spaceDiv.insertBefore(div.firstElementChild, spaceDiv.firstChild);
     INJECTED_HISTORY = true;
-    console.log('[DE] History section injected');
+    console.log('[DE] History timeline injected');
   }
 
+  // ===== 注入交通 section =====
   function injectTransportSection() {
-    if (INJECTED_TRANSPORT) return;
+    if (INJECTED_TRANSPORT || document.getElementById('de-transport-inject')) return;
     var main = document.querySelector('main');
     if (!main) return;
-    // 找包含「交通運輸」標題的容器
-    var allElements = main.querySelectorAll('h3, h4');
-    var targetParent = null;
-    for (var i = 0; i < allElements.length; i++) {
-      var el = allElements[i];
-      if (el.textContent && el.textContent.includes('交通運輸')) {
-        // 找到 section 容器（往上找 space-y-12 的 div）
-        var parent = el.parentElement;
-        while (parent && parent !== main) {
-          if (parent.parentElement && parent.parentElement.style && parent.parentElement.style.minHeight !== undefined) {
-            break;
-          }
-          // 找到 section 的直接父容器
-          if (parent.tagName === 'SECTION' || (parent.className && parent.className.includes('space-y'))) {
-            targetParent = parent.parentElement;
-            break;
-          }
-          parent = parent.parentElement;
-        }
-        if (!targetParent) {
-          // 備用：找 section 的 parentElement
-          targetParent = el.closest('section') ? el.closest('section').parentElement : null;
-        }
+
+    // 找 h3「交通運輸」
+    var h3s = main.querySelectorAll('h3');
+    var targetH3 = null;
+    for (var i = 0; i < h3s.length; i++) {
+      if (h3s[i].textContent.includes('交通運輸')) {
+        targetH3 = h3s[i];
         break;
       }
     }
-    if (!targetParent) return;
+    if (!targetH3) return;
+
+    // 往上找 div.space-y-12
+    var spaceDiv = targetH3.closest('div.space-y-12');
+    if (!spaceDiv) {
+      var sec = targetH3.closest('section');
+      if (sec) spaceDiv = sec.parentElement;
+    }
+    if (!spaceDiv) return;
 
     var div = document.createElement('div');
     div.innerHTML = getTransportHTML();
-    // 插入兩個元素（inject div + modal div）
+    // 插入所有子元素（inject div + modal div）
     var children = Array.from(div.children);
     children.forEach(function(child) {
-      targetParent.insertBefore(child, targetParent.firstChild);
+      spaceDiv.insertBefore(child, spaceDiv.firstChild);
     });
     INJECTED_TRANSPORT = true;
-    console.log('[DE] Transport section injected');
+    console.log('[DE] Transport progress injected');
   }
 
-  // ===== 監聽 section 切換 =====
+  // ===== MutationObserver 監聽 section 切換 =====
   function watchSectionChanges() {
-    var observer = new MutationObserver(function(mutations) {
-      // 檢查 main 的內容變化
-      var main = document.querySelector('main');
-      if (!main) return;
-      var mainText = main.textContent || '';
+    var main = document.querySelector('main');
+    if (!main) return;
 
+    var observer = new MutationObserver(function() {
+      var mainText = main.textContent || '';
       if (mainText.includes('認識 13 個行政區') && !document.getElementById('de-history-inject')) {
         INJECTED_HISTORY = false;
-        setTimeout(injectHistorySection, 100);
+        setTimeout(injectHistorySection, 150);
       }
       if (mainText.includes('交通運輸') && !document.getElementById('de-transport-inject')) {
         INJECTED_TRANSPORT = false;
-        setTimeout(injectTransportSection, 100);
+        setTimeout(injectTransportSection, 150);
       }
     });
 
-    var main = document.querySelector('main');
-    if (main) {
-      observer.observe(main, { childList: true, subtree: true });
-    }
+    observer.observe(main, { childList: true, subtree: true });
   }
 
   // ===== 啟動 =====
   function init() {
     watchSectionChanges();
-    // 初始檢查（如果頁面已在 taoyuan/transportation section）
-    setTimeout(function() {
-      var main = document.querySelector('main');
-      if (!main) return;
+    // 初始檢查
+    var main = document.querySelector('main');
+    if (main) {
       var mainText = main.textContent || '';
       if (mainText.includes('認識 13 個行政區')) {
-        injectHistorySection();
+        setTimeout(injectHistorySection, 200);
       }
       if (mainText.includes('交通運輸')) {
-        injectTransportSection();
+        setTimeout(injectTransportSection, 200);
       }
-    }, 500);
+    }
   }
 
-  // 等待 DOM 就緒
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(init, 800); });
   } else {
-    // React 可能還沒渲染完，稍等一下
     setTimeout(init, 800);
   }
 })();
