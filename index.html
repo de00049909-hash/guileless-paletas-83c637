@@ -25,7 +25,7 @@
   <!-- DE Navbar Inject CSS -->
   <style id="de-navbar-styles">
 
-/* ===== 夢想不動產 DE 導覽列重構樣式 v2（修復版）===== */
+/* ===== 夢想不動產 DE 導覽列重構樣式 v4（繽紛升級版）===== */
 
 /* 整體 wrapper */
 .de-navbar-wrapper {
@@ -37,30 +37,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e8f5f1;
-  margin-bottom: 10px;
+  padding: 10px 20px;
+  background: white;
+  border-bottom: 2px solid #e8f5f1;
 }
 
 /* Logo 區 */
 .de-logo-area {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  text-decoration: none;
 }
 
 .de-logo-icon {
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   background: linear-gradient(135deg, #2eb89f, #1f8b7f);
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: bold;
   font-size: 18px;
-  box-shadow: 0 2px 8px rgba(46, 184, 159, 0.3);
+  color: white;
+  font-weight: 900;
+  box-shadow: 0 3px 10px rgba(46, 184, 159, 0.3);
   flex-shrink: 0;
 }
 
@@ -99,64 +100,77 @@
   line-height: 1.4;
 }
 
-/* 右側按鈕區 */
+/* ===== 右側按鈕區（藥丸型升級）===== */
 .de-action-buttons {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
+/* 官網、粉專：帶邊框的藥丸型按鈕 */
 .de-btn-link {
   display: inline-flex;
   align-items: center;
-  padding: 7px 14px;
+  padding: 8px 18px;
   color: #2eb89f;
   font-size: 13px;
-  font-weight: 600;
-  border-radius: 8px;
+  font-weight: 700;
+  border-radius: 50px;
+  border: 2px solid #2eb89f;
   text-decoration: none;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
   white-space: nowrap;
   line-height: 1;
   cursor: pointer;
+  background: white;
 }
 
 .de-btn-link:hover {
-  background-color: #f0faf8;
-  color: #1f8b7f;
+  background-color: #2eb89f;
+  color: white;
   text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(46, 184, 159, 0.35);
 }
 
+/* 加 LINE：強化 LINE 綠色，最突出 */
 .de-btn-line {
   display: inline-flex;
   align-items: center;
-  padding: 7px 16px;
-  background: linear-gradient(135deg, #2eb89f, #1f8b7f);
+  padding: 10px 22px;
+  background: linear-gradient(135deg, #06C755, #04a844);
   color: white !important;
-  font-size: 13px;
-  font-weight: 700;
-  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 50px;
+  border: none;
   text-decoration: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(46, 184, 159, 0.35);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(6, 199, 85, 0.45);
   white-space: nowrap;
   line-height: 1;
   cursor: pointer;
 }
 
 .de-btn-line:hover {
-  background: linear-gradient(135deg, #25a08a, #196f66);
-  box-shadow: 0 4px 12px rgba(46, 184, 159, 0.45);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #04a844, #038a38);
+  box-shadow: 0 6px 20px rgba(6, 199, 85, 0.55);
+  transform: translateY(-3px) scale(1.05);
   text-decoration: none;
   color: white !important;
 }
 
-/* 導覽列 */
+/* ===== 導覽列主選單列 ===== */
+.de-navbar-bottom {
+  background: linear-gradient(180deg, #f8fffe 0%, #f0faf8 100%);
+  border-bottom: 1px solid #d4ede8;
+  padding: 8px 20px;
+}
+
 .de-navbar {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   flex-wrap: nowrap;
 }
 
@@ -165,46 +179,97 @@
   position: relative;
 }
 
-/* 導覽列按鈕基礎樣式 */
+/* ===== 導覽列按鈕基礎樣式（加大 + 圓角）===== */
 .de-nav-item {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 8px 14px;
+  gap: 5px;
+  padding: 10px 20px;
   font-size: 14px;
-  font-weight: 600;
-  color: #4b5563;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
+  font-weight: 700;
+  color: #374151;
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 50px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   white-space: nowrap;
   line-height: 1;
   text-decoration: none;
   font-family: inherit;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
-.de-nav-item:hover {
-  background-color: #f0faf8;
-  color: #2eb89f;
+/* ===== 繽紛色彩：各按鈕獨立配色 ===== */
+
+/* 🏠 首頁：薄荷綠 */
+.de-nav-item.de-nav-home {
+  color: #1f8b7f;
+  border-color: #2eb89f;
+  background: linear-gradient(135deg, #f0faf8, #e0f5f0);
 }
 
-/* Active 狀態 */
-.de-nav-item.de-nav-active {
+.de-nav-item.de-nav-home:hover,
+.de-nav-item.de-nav-home.de-nav-active {
   background: linear-gradient(135deg, #2eb89f, #1f8b7f);
   color: white !important;
-  box-shadow: 0 2px 8px rgba(46, 184, 159, 0.35);
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(46, 184, 159, 0.45);
+  transform: translateY(-2px) scale(1.04);
 }
 
-.de-nav-item.de-nav-active:hover {
-  background: linear-gradient(135deg, #25a08a, #196f66);
+/* 📍 認識桃園：橙黃色 */
+.de-nav-item.de-nav-taoyuan {
+  color: #c47a00;
+  border-color: #FFB347;
+  background: linear-gradient(135deg, #fff9f0, #fff0d6);
+}
+
+.de-nav-item.de-nav-taoyuan:hover,
+.de-nav-item.de-nav-taoyuan.de-nav-active {
+  background: linear-gradient(135deg, #FFB347, #ff9500);
+  color: white !important;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(255, 179, 71, 0.5);
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* 🎡 休閒探索：粉藍色 */
+.de-nav-item.de-nav-leisure {
+  color: #0077aa;
+  border-color: #77DDFF;
+  background: linear-gradient(135deg, #f0faff, #d6f2ff);
+}
+
+.de-nav-item.de-nav-leisure:hover,
+.de-nav-item.de-nav-leisure.de-nav-active {
+  background: linear-gradient(135deg, #77DDFF, #33bbee);
+  color: white !important;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(119, 221, 255, 0.55);
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* 🎁 特約商店：粉紅色 */
+.de-nav-item.de-nav-partner {
+  color: #c0436b;
+  border-color: #FFB7C5;
+  background: linear-gradient(135deg, #fff5f7, #ffe0e8);
+}
+
+.de-nav-item.de-nav-partner:hover,
+.de-nav-item.de-nav-partner.de-nav-active {
+  background: linear-gradient(135deg, #FFB7C5, #ff7fa0);
+  color: white !important;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(255, 183, 197, 0.6);
+  transform: translateY(-2px) scale(1.04);
 }
 
 /* 下拉箭頭 */
 .de-dropdown-arrow {
   font-size: 11px;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease;
   display: inline-block;
 }
 
@@ -212,27 +277,26 @@
   transform: rotate(180deg);
 }
 
-/* 下拉選單 - 修復閃退：用 padding-top 填補按鈕和選單之間的空隙 */
+/* ===== 下拉選單 ===== */
 .de-dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  min-width: 190px;
+  min-width: 200px;
   background: white;
   border: 1px solid #d4ede8;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(46, 184, 159, 0.15), 0 2px 8px rgba(0,0,0,0.08);
-  padding: 6px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(46, 184, 159, 0.18), 0 3px 10px rgba(0,0,0,0.08);
+  padding: 8px;
   z-index: 1000;
   opacity: 0;
-  transform: translateY(-6px) scale(0.97);
+  transform: translateY(-8px) scale(0.96);
   pointer-events: none;
-  transition: opacity 0.18s ease, transform 0.18s ease;
-  /* 關鍵修復：用 margin-top 代替 top 偏移，避免空隙 */
-  margin-top: 4px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  margin-top: 6px;
 }
 
-/* 在選單上方加一個透明的「橋接區」，防止滑鼠移動時選單消失 */
+/* 橋接區防止閃退 */
 .de-dropdown-menu::before {
   content: '';
   position: absolute;
@@ -254,38 +318,40 @@
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 9px 14px;
+  padding: 10px 16px;
   font-size: 13px;
   font-weight: 600;
   color: #374151;
   background: transparent;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer !important;
   text-align: left;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   line-height: 1;
   white-space: nowrap;
   font-family: inherit;
 }
 
 .de-dropdown-item:hover {
-  background-color: #f0faf8;
-  color: #2eb89f;
+  background: linear-gradient(135deg, #f0faf8, #e0f5f0);
+  color: #1f8b7f;
   cursor: pointer !important;
+  transform: translateX(3px);
 }
 
 .de-dropdown-item.de-dropdown-item-active {
-  background-color: #e8f5f1;
+  background: linear-gradient(135deg, #e0f5f0, #c8ede6);
   color: #1f8b7f;
   font-weight: 700;
 }
 
-/* 響應式：小螢幕 */
+/* ===== 響應式 ===== */
 @media (max-width: 768px) {
   .de-navbar-top {
     flex-wrap: wrap;
     gap: 8px;
+    padding: 8px 12px;
   }
 
   .de-action-buttons {
@@ -293,22 +359,23 @@
   }
 
   .de-btn-link {
-    padding: 6px 10px;
-    font-size: 12px;
-  }
-
-  .de-btn-line {
     padding: 6px 12px;
     font-size: 12px;
   }
 
+  .de-btn-line {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
   .de-navbar {
     flex-wrap: wrap;
-    gap: 4px;
+    gap: 6px;
+    padding: 6px 12px;
   }
 
   .de-nav-item {
-    padding: 7px 10px;
+    padding: 8px 14px;
     font-size: 13px;
   }
 }
@@ -325,7 +392,7 @@
   }
 }
 
-  </style>
+</style>
 </head>
 
   <body>
