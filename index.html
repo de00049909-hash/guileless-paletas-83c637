@@ -600,11 +600,11 @@ Error generating stack: `+l.message+`
       '<nav class="de-navbar" id="de-nav-bar">',
 
         // 1. 首頁
-        '<button class="de-nav-item de-nav-direct de-nav-active" data-section="home">🏠 首頁</button>',
+        '<button class="de-nav-item de-nav-direct de-nav-home de-nav-active" data-section="home">🏠 首頁</button>',
 
         // 2. 認識桃園（下拉）
         '<div class="de-nav-dropdown-wrap" id="wrap-taoyuan">',
-          '<button class="de-nav-item de-nav-has-dropdown" data-group="taoyuan">',
+          '<button class="de-nav-item de-nav-has-dropdown de-nav-taoyuan" data-group="taoyuan">',
             '📍 認識桃園 <span class="de-dropdown-arrow">▾</span>',
           '</button>',
           '<div class="de-dropdown-menu" id="dropdown-taoyuan">',
@@ -616,7 +616,7 @@ Error generating stack: `+l.message+`
 
         // 3. 休閒探索（下拉）
         '<div class="de-nav-dropdown-wrap" id="wrap-leisure">',
-          '<button class="de-nav-item de-nav-has-dropdown" data-group="leisure">',
+          '<button class="de-nav-item de-nav-has-dropdown de-nav-leisure" data-group="leisure">',
             '🎡 休閒探索 <span class="de-dropdown-arrow">▾</span>',
           '</button>',
           '<div class="de-dropdown-menu" id="dropdown-leisure">',
