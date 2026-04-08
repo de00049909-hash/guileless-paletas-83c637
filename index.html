@@ -562,7 +562,7 @@ Error generating stack: `+l.message+`
         '</div>',
 
         // 4. 特約商店
-        '<button class="de-nav-item de-nav-direct de-nav-partner" data-href="https://www.dreamestate.com.tw/partner">🎁 特約商店</button>',
+        '<button class="de-nav-item de-nav-direct de-nav-partner" data-partner="true">🎁 特約商店</button>',
 
       '</nav>'
     ].join('');
@@ -586,11 +586,22 @@ Error generating stack: `+l.message+`
       });
     });
 
-    // 2. 特約商店（外部連結）
-    deNavbar.querySelectorAll('.de-nav-direct[data-href]').forEach(function(btn) {
+    // 2. 特約商店（使用原始 React <a> 標籤的路由）
+    deNavbar.querySelectorAll('.de-nav-direct[data-partner]').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        var href = this.getAttribute('data-href');
-        if (href) window.open(href, '_blank');
+        // 找到原始 React nav 中的特約商店 <a> 標籤（index 8）
+        var origNav = document.getElementById('de-orig-nav');
+        if (origNav) {
+          // 原始 nav 中的所有互動元素（button + a）
+          var origItems = origNav.querySelectorAll('button, a');
+          // 特約商店是最後一個，index 8
+          if (origItems[8]) {
+            origItems[8].click();
+            return;
+          }
+        }
+        // 備用：直接用 React Router 跳轉
+        window.location.href = '/partner-shops';
       });
     });
 
