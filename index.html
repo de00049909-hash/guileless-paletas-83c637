@@ -1337,26 +1337,31 @@ Error generating stack: `+l.message+`
     if (!spaceDiv) {
       var divs = main.querySelectorAll('div');
       for (var i = 0; i < divs.length; i++) {
-        if (divs[i].querySelectorAll('section').length >= 1) {
+        if (divs[i].querySelectorAll('section').length >= 2) {
           spaceDiv = divs[i];
           break;
         }
       }
     }
     if (!spaceDiv) return;
-    var ctaSection = null;
-    var allSections = spaceDiv.querySelectorAll('section');
-    for (var j = 0; j < allSections.length; j++) {
-      if (allSections[j].textContent.includes('準備好來桃園')) {
-        ctaSection = allSections[j];
-        break;
-      }
+    // 檢查是否已經注入過
+    if (document.getElementById('de-food-time-machine')) {
+      FOOD_INJECTED = true;
+      return;
     }
+    // 找到最後一個 section 後面插入（不依賴「準備好來桃園」標題）
+    var allSections = spaceDiv.querySelectorAll(':scope > section');
     var wrapper = document.createElement('section');
     wrapper.style.cssText = 'background:transparent;';
     wrapper.innerHTML = buildCard(getSlotData());
-    if (ctaSection) {
-      spaceDiv.insertBefore(wrapper, ctaSection);
+    if (allSections.length > 0) {
+      // 插入到最後一個 section 之後
+      var lastSection = allSections[allSections.length - 1];
+      if (lastSection.nextSibling) {
+        spaceDiv.insertBefore(wrapper, lastSection.nextSibling);
+      } else {
+        spaceDiv.appendChild(wrapper);
+      }
     } else {
       spaceDiv.appendChild(wrapper);
     }
