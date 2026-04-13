@@ -977,180 +977,341 @@ Error generating stack: `+l.message+`
 
   </script>
 <script id="de-food-inject">
-// 🍜 夢想不動產 DE 美食時光機 (Food Time Machine) v3.0
-// 固定注入到首頁主容器，每天 24 小時根據 getHours() 自動切換
+// 🍜 夢想不動產 DE 美食時光機 (Food Time Machine) v4.0
+// 每個時段顯示 2-3 家備選店家，讓訪客有更多選擇！
 (function() {
   'use strict';
   var FOOD_INJECTED = false;
-
   // =============================================
-  // 8 個時段的真實桃園店家資料
+  // 8 個時段的真實桃園店家資料（每時段 2-3 家）
   // =============================================
-  var FOOD_DATA = [
+  var FOOD_SLOTS = [
     // 0: 01:00-06:00 夜市
     {
       hours: [1,2,3,4,5],
-      timeLabel: '🌃 夜市美食精選', timeRange: '01:00 - 06:00', cardTitle: '深夜美食推薦',
-      emoji: '🌃', bgGradient: 'linear-gradient(135deg,#0d1b2a 0%,#1b2838 100%)',
+      timeLabel: '🌃 夜市美食精選', timeRange: '01:00 - 06:00',
+      cardTitle: '深夜美食推薦',
+      emoji: '🌃',
+      bgGradient: 'linear-gradient(135deg,#0d1b2a 0%,#1b2838 100%)',
       accentColor: '#ffd700', textColor: 'white',
-      store: '楊記美食小吃城', area: '中壢區', address: '桃園市中壢區新生路109號',
-      dish: '手工肉圓',
-      description: '提供多樣台灣小吃，有大腸麵線、甜不辣、手工肉圓等，店面寬敞明亮，是中壢夜貓族深夜覓食的好去處。',
-      mapsUrl: 'https://maps.google.com/?q=楊記美食小吃城+中壢+桃園',
-      tip: '24小時不打烊，深夜也能吃到熱食！'
+      stores: [
+        {
+          name: '楊記美食小吃城', area: '中壢區',
+          dish: '手工肉圓、大腸麵線、甜不辣',
+          desc: '提供多樣台灣小吃，店面寬敞明亮，是中壢夜貓族深夜覓食的好去處。24小時不打烊！',
+          tip: '深夜也能吃到熱食，宵夜首選！',
+          mapsUrl: 'https://maps.google.com/?q=楊記美食小吃城+中壢+桃園'
+        },
+        {
+          name: '永川牛肉麵', area: '中壢民權路',
+          dish: '紅燒牛肉麵、各式小菜',
+          desc: '在地經營超過一甲子的牛肉麵老店，24小時營業不打烊。湯頭濃郁、麵條Q彈，可免費加湯加麵一次！',
+          tip: '深夜必訪老字號，免費加湯加麵超划算！',
+          mapsUrl: 'https://maps.google.com/?q=永川牛肉麵+中壢'
+        },
+        {
+          name: '東坡老店', area: '中壢復興路',
+          dish: '東坡肉蛋酥、特色簡餐',
+          desc: '24小時營業的簡餐餐廳，二樓有造景小河，營造懷舊氛圍，適合三五好友深夜聚會。',
+          tip: '二樓造景小河超有氣氛，深夜聚會首選！',
+          mapsUrl: 'https://maps.google.com/?q=東坡老店+中壢'
+        }
+      ]
     },
     // 1: 06:00-09:00 早餐
     {
       hours: [6,7,8],
-      timeLabel: '☕ 早餐時光', timeRange: '06:00 - 09:00', cardTitle: '今日早餐推薦',
-      emoji: '☕', bgGradient: 'linear-gradient(135deg,#fff8f0 0%,#fef3e2 100%)',
+      timeLabel: '☕ 早餐時光', timeRange: '06:00 - 09:00',
+      cardTitle: '今日早餐推薦',
+      emoji: '☕',
+      bgGradient: 'linear-gradient(135deg,#fff8f0 0%,#fef3e2 100%)',
       accentColor: '#e67e22', textColor: 'dark',
-      store: '壹樓早餐 平鎮復興店', area: '平鎮區', address: '桃園市平鎮區復興路23號',
-      dish: '咔啦脆雞墨西哥捲',
-      description: '店內環境溫馨舒適，帶著微微的文青氣息，提供豐富多元的早餐選擇，是平鎮在地人氣早餐首選。',
-      mapsUrl: 'https://maps.google.com/?q=壹樓早餐+平鎮復興店+桃園',
-      tip: '建議提早去，熱門時段常排隊！'
+      stores: [
+        {
+          name: '壹樓早餐 平鎮復興店', area: '平鎮區',
+          dish: '咔啦脆雞墨西哥捲、招牌蛋餅',
+          desc: '店內環境溫馨舒適，帶著微微的文青氣息，提供豐富多元的早餐選擇，是平鎮在地人氣早餐首選。',
+          tip: '建議提早去，熱門時段常排隊！',
+          mapsUrl: 'https://maps.google.com/?q=壹樓早餐+平鎮復興店+桃園'
+        },
+        {
+          name: '永和豆漿大王', area: '中壢民族路',
+          dish: '蛋餅夾油條、熱豆漿加蛋、燒餅油條',
+          desc: '在地知名宵夜/早餐店，半夜12點仍需排隊，餐點品質穩定，燒餅油條現做，是中壢人的早餐記憶。',
+          tip: '現做燒餅油條香氣十足，配熱豆漿絕配！',
+          mapsUrl: 'https://maps.google.com/?q=永和豆漿大王+中壢民族路'
+        },
+        {
+          name: 'Make Eat Work 早方法', area: '青埔',
+          dish: '綠葉烤蛋法式肉腸早餐、美式咖啡',
+          desc: '充滿清新綠意風格的早午餐店，提供早午餐系列與義大利麵食，用餐環境舒適，是青埔文青打卡點。',
+          tip: '環境清新好拍，適合悠閒早晨！',
+          mapsUrl: 'https://maps.google.com/?q=Make+Eat+Work+早方法+青埔'
+        }
+      ]
     },
     // 2: 09:00-11:00 早午餐
     {
       hours: [9,10],
-      timeLabel: '🥞 悠閒早午餐', timeRange: '09:00 - 11:00', cardTitle: '今日早午餐推薦',
-      emoji: '🥞', bgGradient: 'linear-gradient(135deg,#fff0f5 0%,#fce4ec 100%)',
+      timeLabel: '🥞 悠閒早午餐', timeRange: '09:00 - 11:00',
+      cardTitle: '今日早午餐推薦',
+      emoji: '🥞',
+      bgGradient: 'linear-gradient(135deg,#fff0f5 0%,#fce4ec 100%)',
       accentColor: '#e91e8c', textColor: 'dark',
-      store: 'MATCHI BRUNCH 馬柒早午餐', area: '青埔', address: '桃園市大園區青峰路二段232號1樓',
-      dish: '韓式烤肉溫泉蛋',
-      description: '隱藏於青埔社區的韓系質感店面，主打韓式早午餐盤，不賣常見炸物堡類，是青埔文青必訪打卡點。',
-      mapsUrl: 'https://maps.google.com/?q=MATCHI+BRUNCH+馬柒早午餐+桃園',
-      tip: '假日建議先預約，座位有限！'
+      stores: [
+        {
+          name: 'MATCHI BRUNCH 馬柒早午餐', area: '青埔',
+          dish: '韓式烤肉溫泉蛋早午餐盤、秘製醬烤牛排義大利麵',
+          desc: '隱藏於青埔社區的韓系質感店面，主打韓式早午餐盤，不賣常見炸物堡類，是青埔文青必訪打卡點。',
+          tip: '假日建議先預約，座位有限！',
+          mapsUrl: 'https://maps.google.com/?q=MATCHI+BRUNCH+馬柒早午餐+桃園'
+        },
+        {
+          name: '旿野曜初', area: '中壢龍文街',
+          dish: '公主粉紅醬歐姆鳥巢麵、蒜鹽嫩煎肩小排',
+          desc: '獨特的質感氛圍與精緻餐點，網美系餐廳，提供美味義式料理與甜點，有可愛店狗常駐，寵物友善！',
+          tip: '寵物友善餐廳，帶毛小孩一起來！',
+          mapsUrl: 'https://maps.google.com/?q=旿野曜初+中壢'
+        },
+        {
+          name: '日日朝食', area: '平鎮',
+          dish: '沙朗牛排季節烤食蔬、黑松露奶油野菇濃湯',
+          desc: '小巧溫馨又好拍的早午餐店，料理用心美味，固定更換新菜色，適合親子、同事、朋友聚會。',
+          tip: '菜色定期更換，每次來都有驚喜！',
+          mapsUrl: 'https://maps.google.com/?q=日日朝食+平鎮'
+        }
+      ]
     },
     // 3: 11:00-14:00 午餐
     {
       hours: [11,12,13],
-      timeLabel: '🍱 活力午餐', timeRange: '11:00 - 14:00', cardTitle: '今日午餐推薦',
-      emoji: '🍱', bgGradient: 'linear-gradient(135deg,#f0f9f0 0%,#e8f5e9 100%)',
+      timeLabel: '🍱 活力午餐', timeRange: '11:00 - 14:00',
+      cardTitle: '今日午餐推薦',
+      emoji: '🍱',
+      bgGradient: 'linear-gradient(135deg,#f0f9f0 0%,#e8f5e9 100%)',
       accentColor: '#2e7d32', textColor: 'dark',
-      store: '山の狼便當', area: '中壢區', address: '桃園市中壢區博愛三路1號',
-      dish: '蔥爆牛肉便當',
-      description: '在地人氣便當店，日銷超過3000份！配菜豐富實在，蔥爆牛肉最受歡迎，CP值超高，是中壢上班族的午餐首選。',
-      mapsUrl: 'https://maps.google.com/?q=山の狼便當+中壢+桃園',
-      tip: '11:30前去可避開排隊高峰！'
+      stores: [
+        {
+          name: '山の狼便當', area: '中壢區',
+          dish: '蔥爆牛肉便當、招牌排骨便當',
+          desc: '在地人氣便當店，日銷超過3000份！配菜豐富實在，蔥爆牛肉最受歡迎，CP值超高，是中壢上班族午餐首選。',
+          tip: '11:30前去可避開排隊高峰！',
+          mapsUrl: 'https://maps.google.com/?q=山の狼便當+中壢+桃園'
+        },
+        {
+          name: '正宗新明老牌牛肉麵', area: '中壢民權路',
+          dish: '紅燒牛肉麵、滷味小菜',
+          desc: '創立於1953年，開賣超過70年的老字號！湯頭溫潤不死鹹，麵條Q彈，可免費加湯加麵一次，份量足。',
+          tip: '70年老字號，免費加湯加麵超值！',
+          mapsUrl: 'https://maps.google.com/?q=正宗新明老牌牛肉麵+中壢'
+        },
+        {
+          name: 'KiKi Garden 義大利麵', area: '中壢',
+          dish: '義大利麵、焗烤料理',
+          desc: '位於中原大學商圈，平價美味，餐點現點現做，提供多樣化的義大利麵與焗烤料理，學生族群最愛。',
+          tip: '平價美味，中原商圈必訪！',
+          mapsUrl: 'https://maps.google.com/?q=KiKi+Garden+義大利麵+中壢'
+        }
+      ]
     },
     // 4: 14:00-17:00 下午茶
     {
       hours: [14,15,16],
-      timeLabel: '🍰 下午茶時光', timeRange: '14:00 - 17:00', cardTitle: '今日下午茶推薦',
-      emoji: '🍰', bgGradient: 'linear-gradient(135deg,#fdf6ff 0%,#f3e5f5 100%)',
+      timeLabel: '🍰 下午茶時光', timeRange: '14:00 - 17:00',
+      cardTitle: '今日下午茶推薦',
+      emoji: '🍰',
+      bgGradient: 'linear-gradient(135deg,#fdf6ff 0%,#f3e5f5 100%)',
       accentColor: '#7b1fa2', textColor: 'dark',
-      store: '好咖 Howcup CURRY CAFE', area: '中壢區', address: '桃園市中壢區中北路19號',
-      dish: '草莓巴斯克起司蛋糕',
-      description: '中壢人氣咖啡廳，以特色咖哩飯和繽紛甜點聞名，季節限定草莓巴斯克更是必點，環境舒適適合久坐。',
-      mapsUrl: 'https://maps.google.com/?q=好咖+Howcup+CURRY+CAFE+中壢+桃園',
-      tip: '季節限定甜點售完為止，早去早享用！'
+      stores: [
+        {
+          name: '好咖 Howcup CURRY CAFE', area: '中壢區',
+          dish: '草莓巴斯克起司蛋糕、特色咖哩飯',
+          desc: '中壢人氣咖啡廳，以特色咖哩飯和繽紛甜點聞名，季節限定草莓巴斯克更是必點，環境舒適適合久坐。',
+          tip: '季節限定甜點售完為止，早去早享用！',
+          mapsUrl: 'https://maps.google.com/?q=好咖+Howcup+CURRY+CAFE+中壢+桃園'
+        },
+        {
+          name: '篤行市場 中壢SOGO店', area: '中壢元化路',
+          dish: '春嬌與志明鮮奶茶、招牌紅柚金萱',
+          desc: '懷舊復古眷村風格的手搖飲料店，提供多種特色飲品，還有獨特的刈包作為下午茶點心，逛街後必訪！',
+          tip: '眷村風格超好拍，飲品搭刈包是絕配！',
+          mapsUrl: 'https://maps.google.com/?q=篤行市場+中壢SOGO店'
+        },
+        {
+          name: '日福 OH HAPPY DAY', area: '青埔大仁路',
+          dish: '草莓奶油蛋糕、白葡萄乳酪蛋糕、桂花拿鐵',
+          desc: '日系文青風格咖啡廳，擁有大片玻璃窗，陽光灑落氛圍極佳。提供手工水果塔、生日蛋糕等精緻甜點。',
+          tip: '大片玻璃窗採光超美，下午茶拍照首選！',
+          mapsUrl: 'https://maps.google.com/?q=日福+OH+HAPPY+DAY+青埔'
+        }
+      ]
     },
-    // 5: 17:00-20:00 晚餐（龍岡米干）
+    // 5: 17:00-20:00 晚餐（龍岡米干主打）
     {
       hours: [17,18,19],
-      timeLabel: '🥘 溫馨晚餐', timeRange: '17:00 - 20:00', cardTitle: '今日晚餐推薦',
-      emoji: '🥘', bgGradient: 'linear-gradient(135deg,#f0faf8 0%,#e0f2f1 100%)',
+      timeLabel: '🥘 溫馨晚餐', timeRange: '17:00 - 20:00',
+      cardTitle: '今日晚餐推薦',
+      emoji: '🥘',
+      bgGradient: 'linear-gradient(135deg,#f0faf8 0%,#e0f2f1 100%)',
       accentColor: '#2eb89f', textColor: 'dark',
-      store: '忠貞米干', area: '中壢區（龍岡）', address: '桃園市中壢區中正五路210號',
-      dish: '綜合米干（蛋＋肉＋豬肝）',
-      description: '溫馨家常路線，湯濃味美料多實在，老饕心中龍岡米干第一名！純米手工製作，滑嫩帶有米香，搭配特製肉末與靈魂辣油，是桃園人最完美的晚餐！',
-      mapsUrl: 'https://maps.google.com/?q=忠貞米干+中壢+桃園',
-      tip: '必加靈魂辣油！半熟蛋戳破融入湯頭，再來一盤豌豆粉絕配！'
+      stores: [
+        {
+          name: '忠貞米干 🌟 小編私房推薦', area: '中壢區（龍岡）',
+          dish: '綜合米干（蛋＋肉＋豬肝）、豌豆粉',
+          desc: '龍岡米干不僅是異域孤軍留下的家鄉味，更是桃園人引以為傲的飲食文化。純米手工製作，滑嫩帶有米香，搭配特製肉末與靈魂辣油，這就是桃園人最完美的晚餐！',
+          tip: '必加靈魂辣油！半熟蛋戳破融入湯頭，再來一盤豌豆粉酸爽絕配！',
+          mapsUrl: 'https://maps.google.com/?q=忠貞米干+中壢+桃園'
+        },
+        {
+          name: '大魔 大满足鍋物', area: '中壢環北路',
+          dish: '高級肉品火鍋、海鮮痛風鍋',
+          desc: '位於中壢SOGO商圈，提供15種湯底選擇，主餐為高級肉品，還有海鮮痛風鍋。提供星巴克咖啡與多種高級甜點。',
+          tip: '15種湯底任選，附星巴克咖啡超值！',
+          mapsUrl: 'https://maps.google.com/?q=大魔大满足鍋物+中壢環北店'
+        },
+        {
+          name: '清味食館', area: '中壢環西路',
+          dish: '砂鍋魚頭、蔥爆牛肉、茄子肥腸煲',
+          desc: '在地隱藏版熱炒小吃店，兩層樓用餐環境適合聚餐。老闆有40多年經驗，熱炒夠味好吃，是在地人的秘密基地。',
+          tip: '40年老師傅的隱藏版熱炒，聚餐必訪！',
+          mapsUrl: 'https://maps.google.com/?q=清味食館+中壢'
+        }
+      ]
     },
     // 6: 20:00-22:00 宵夜
     {
       hours: [20,21],
-      timeLabel: '🍢 宵夜解饞', timeRange: '20:00 - 22:00', cardTitle: '今日宵夜推薦',
-      emoji: '🍢', bgGradient: 'linear-gradient(135deg,#fff8e1 0%,#fff3e0 100%)',
+      timeLabel: '🍢 宵夜解饞', timeRange: '20:00 - 22:00',
+      cardTitle: '今日宵夜推薦',
+      emoji: '🍢',
+      bgGradient: 'linear-gradient(135deg,#fff8e1 0%,#fff3e0 100%)',
       accentColor: '#f57c00', textColor: 'dark',
-      store: '大香酥香雞排', area: '平鎮區', address: '桃園市平鎮區和平路197號',
-      dish: '蔥肉串',
-      description: '在地人氣鹹酥雞店，獨家肉串與蔥肉串是必點，炸功好不油膩，是平鎮夜貓族的宵夜首選，每晚排隊人潮不斷。',
-      mapsUrl: 'https://maps.google.com/?q=大香酥香雞排+平鎮+桃園',
-      tip: '蔥肉串＋鹽酥雞是黃金組合！'
+      stores: [
+        {
+          name: '大香酥香雞排', area: '平鎮區',
+          dish: '蔥肉串、鹽酥雞、香雞排',
+          desc: '在地人氣鹹酥雞店，獨家肉串與蔥肉串是必點，炸功好不油膩，是平鎮夜貓族的宵夜首選，每晚排隊人潮不斷。',
+          tip: '蔥肉串＋鹽酥雞是黃金組合！',
+          mapsUrl: 'https://maps.google.com/?q=大香酥香雞排+平鎮+桃園'
+        },
+        {
+          name: '弄弄 Nong 串燒居酒屋', area: '中壢中原路',
+          dish: '各式串燒、招牌明太子薯條、醬燒肉飯',
+          desc: '平價又有特色的居酒屋料理，氣氛好，適合朋友聚會、小酌聊天，是中原商圈夜晚的熱鬧選擇。',
+          tip: '明太子薯條是隱藏版必點！',
+          mapsUrl: 'https://maps.google.com/?q=弄弄+Nong+串燒居酒屋+中壢'
+        },
+        {
+          name: '南豐滷坊', area: '平鎮南豐路',
+          dish: '牛五花、豆皮、滷鴨血',
+          desc: '新鮮食材、多元選擇、口味超讚，營業到深夜，適合夜貓子。滷味新鮮入味，是平鎮宵夜的人氣選擇。',
+          tip: '牛五花滷得超入味，宵夜必吃！',
+          mapsUrl: 'https://maps.google.com/?q=南豐滷坊+平鎮'
+        }
+      ]
     },
     // 7: 22:00-01:00 餐酒館
     {
       hours: [22,23,0],
-      timeLabel: '🍸 微醺餐酒館', timeRange: '22:00 - 01:00', cardTitle: '今晚餐酒館推薦',
-      emoji: '🍸', bgGradient: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 100%)',
+      timeLabel: '🍸 微醺餐酒館', timeRange: '22:00 - 01:00',
+      cardTitle: '今晚餐酒館推薦',
+      emoji: '🍸',
+      bgGradient: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 100%)',
       accentColor: '#9c27b0', textColor: 'white',
-      store: 'M3 餐酒館', area: '中壢區（青埔）', address: '桃園市中壢區青峰路一段55號',
-      dish: '柚子胡椒脆皮雞翅',
-      description: '青埔質感人氣餐酒館，現做美味餐點，燈光美氣氛佳，柚子胡椒脆皮雞翅是招牌，約會聚餐首選，週末建議提前訂位。',
-      mapsUrl: 'https://maps.google.com/?q=M3餐酒館+中壢+桃園',
-      tip: '週末建議提前訂位，現場常客滿！'
+      stores: [
+        {
+          name: 'M3 餐酒館', area: '中壢區（青埔）',
+          dish: '柚子胡椒脆皮雞翅、精釀啤酒',
+          desc: '青埔質感人氣餐酒館，現做美味餐點，燈光美氣氛佳，柚子胡椒脆皮雞翅是招牌，約會聚餐首選。',
+          tip: '週末建議提前訂位，現場常客滿！',
+          mapsUrl: 'https://maps.google.com/?q=M3餐酒館+中壢+桃園'
+        },
+        {
+          name: '醉生夢室餐酒館', area: '中壢中華路',
+          dish: '特製炸雞、綜合香煎骰子牛、蒜苗炒鹹豬肉',
+          desc: '以shot為主題的餐酒館，結合台式熱炒餐點，提供免費KTV和飛鏢台，氣氛熱鬧歡樂，是朋友聚會的不二選擇。',
+          tip: '附免費KTV和飛鏢台，聚會嗨翻天！',
+          mapsUrl: 'https://maps.google.com/?q=醉生夢室餐酒館+中壢'
+        },
+        {
+          name: '日本の味 歌亭', area: '中壢中央西路',
+          dish: '炸牡蠣、炸雞排、玉子燒',
+          desc: 'Google評價4.7⭐，店內裝潢與菜單充滿日式風格，老闆娘曾在日本生活，客人多為日本人，道地日式居酒屋！',
+          tip: 'Google評價4.7顆星，道地日式風味！',
+          mapsUrl: 'https://maps.google.com/?q=日本の味歌亭+中壢'
+        }
+      ]
     }
   ];
 
   function getSlotData() {
     var h = new Date().getHours();
-    for (var i = 0; i < FOOD_DATA.length; i++) {
-      if (FOOD_DATA[i].hours.indexOf(h) >= 0) return FOOD_DATA[i];
+    for (var i = 0; i < FOOD_SLOTS.length; i++) {
+      if (FOOD_SLOTS[i].hours.indexOf(h) >= 0) return FOOD_SLOTS[i];
     }
-    return FOOD_DATA[0]; // fallback
+    return FOOD_SLOTS[0];
   }
 
-  function buildCard(d) {
-    var isDark = d.textColor === 'white';
+  function buildStoreCard(store, accentColor, isDark) {
     var textMain = isDark ? 'white' : '#1f2937';
     var textSub  = isDark ? 'rgba(255,255,255,0.85)' : '#374151';
     var textMuted= isDark ? 'rgba(255,255,255,0.6)' : '#6b7280';
-    var cardBorder = isDark ? 'none' : '1px solid rgba(46,184,159,0.2)';
-    var bgPanel = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.7)';
+    var bgPanel  = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)';
+    return [
+      '<div style="background:',bgPanel,';border-radius:12px;padding:14px;margin-bottom:12px;border:1px solid ',isDark?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.06),';">',
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">',
+          '<div>',
+            '<div style="font-size:0.95rem;font-weight:800;color:',accentColor,';">🏪 ',store.name,'</div>',
+            '<div style="font-size:0.75rem;color:',textMuted,';margin-top:2px;">📍 ',store.area,'</div>',
+          '</div>',
+          '<a href="',store.mapsUrl,'" target="_blank" rel="noopener" ',
+            'style="flex-shrink:0;background:',accentColor,';color:white;text-decoration:none;',
+            'padding:5px 10px;border-radius:6px;font-size:0.72rem;font-weight:700;white-space:nowrap;">',
+            '📍 導航',
+          '</a>',
+        '</div>',
+        '<div style="font-size:0.82rem;font-weight:600;color:',textMain,';margin-bottom:6px;">',
+          '✨ 必點：',store.dish,
+        '</div>',
+        '<div style="font-size:0.78rem;color:',textSub,';line-height:1.6;margin-bottom:6px;">',store.desc,'</div>',
+        '<div style="font-size:0.75rem;color:',accentColor,';font-weight:600;">💡 ',store.tip,'</div>',
+      '</div>'
+    ].join('');
+  }
+
+  function buildCard(slot) {
+    var isDark = slot.textColor === 'white';
+    var textMain = isDark ? 'white' : '#1f2937';
+    var textSub  = isDark ? 'rgba(255,255,255,0.85)' : '#374151';
+    var textMuted= isDark ? 'rgba(255,255,255,0.6)' : '#6b7280';
+    var bgPanel  = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)';
+
+    var storesHTML = '';
+    for (var i = 0; i < slot.stores.length; i++) {
+      storesHTML += buildStoreCard(slot.stores[i], slot.accentColor, isDark);
+    }
 
     return [
-      '<div id="de-food-timemachine" style="',
-        'background:',d.bgGradient,';',
-        'border-radius:15px;',
-        'box-shadow:0 4px 24px rgba(0,0,0,0.1);',
-        'border:',cardBorder,';',
-        'overflow:hidden;margin-bottom:0;',
-      '">',
-        // 頂部時段標籤
-        '<div style="background:',d.accentColor,';padding:10px 20px;display:flex;align-items:center;justify-content:space-between;">',
-          '<span style="color:white;font-size:0.9rem;font-weight:700;">',d.timeLabel,'</span>',
-          '<span style="color:rgba(255,255,255,0.85);font-size:0.75rem;">⏰ ',d.timeRange,'</span>',
-        '</div>',
-        // 主體
-        '<div style="padding:20px 20px 16px;">',
-          // 圖片預留位
-          '<div style="width:100%;height:160px;background:rgba(255,255,255,0.12);border-radius:10px;margin-bottom:14px;',
-            'display:flex;align-items:center;justify-content:center;',
-            'border:2px dashed rgba(128,128,128,0.3);">',
-            '<div style="text-align:center;">',
-              '<div style="font-size:3rem;">',d.emoji,'</div>',
-              '<div style="font-size:0.72rem;color:',textMuted,';margin-top:4px;font-weight:600;">圖片即將上線</div>',
+      '<div id="de-food-time-machine" style="border-radius:20px;overflow:hidden;',
+        'box-shadow:0 8px 32px rgba(0,0,0,0.12);margin-bottom:0;">',
+        // 頭部
+        '<div style="background:',slot.bgGradient,';padding:20px 24px 16px;">',
+          '<div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;">',
+            '<span style="font-size:2rem;">',slot.emoji,'</span>',
+            '<div>',
+              '<div style="font-size:0.72rem;font-weight:600;color:',slot.accentColor,';letter-spacing:0.05em;text-transform:uppercase;">',slot.timeRange,'</div>',
+              '<h3 style="font-size:1.15rem;font-weight:800;color:',textMain,';margin:0;">',slot.cardTitle,'</h3>',
+            '</div>',
+            '<div style="margin-left:auto;background:',slot.accentColor,';color:white;',
+              'padding:4px 10px;border-radius:20px;font-size:0.7rem;font-weight:700;">',
+              slot.stores.length,' 家推薦',
             '</div>',
           '</div>',
-          // 標題
-          '<h3 style="font-size:1.1rem;font-weight:800;color:',textMain,';margin:0 0 6px;">',d.cardTitle,'</h3>',
-          // 店家
-          '<p style="font-size:0.95rem;font-weight:700;color:',d.accentColor,';margin:0 0 10px;">',
-            '🏪 ',d.store,
-            '<span style="font-size:0.72rem;font-weight:400;color:',textMuted,';margin-left:8px;">📍 ',d.area,'</span>',
-          '</p>',
-          // 必點
-          '<div style="background:',bgPanel,';border-radius:8px;padding:10px 12px;margin-bottom:10px;border-left:3px solid ',d.accentColor,';">',
-            '<div style="font-size:0.75rem;font-weight:700;color:',d.accentColor,';">✨ 必點推薦</div>',
-            '<div style="font-size:0.88rem;font-weight:600;color:',textMain,';margin-top:3px;">🍽️ ',d.dish,'</div>',
-          '</div>',
-          // 介紹
-          '<p style="font-size:0.83rem;color:',textSub,';line-height:1.7;margin:0 0 10px;">',d.description,'</p>',
-          // 提示
-          '<div style="background:',bgPanel,';border-radius:8px;padding:8px 12px;margin-bottom:14px;">',
-            '<span style="font-size:0.75rem;color:',d.accentColor,';font-weight:700;">💡 小編提示：</span>',
-            '<span style="font-size:0.78rem;color:',textSub,';"> ',d.tip,'</span>',
-          '</div>',
-          // 地圖按鈕
-          '<a href="',d.mapsUrl,'" target="_blank" rel="noopener" ',
-            'style="display:inline-flex;align-items:center;gap:6px;background:',d.accentColor,';',
-            'color:white;text-decoration:none;padding:8px 16px;border-radius:8px;',
-            'font-size:0.82rem;font-weight:700;">',
-            '📍 Google Maps 導航',
-          '</a>',
+          '<div style="font-size:0.8rem;color:',textMuted,';">',slot.timeLabel,' · 桃園中壢、青埔、平鎮精選</div>',
+        '</div>',
+        // 店家列表
+        '<div style="background:',isDark?'#1e2a3a':'white',';padding:16px 20px;">',
+          storesHTML,
         '</div>',
         // 官方連結模組
         '<div style="background:linear-gradient(135deg,#2eb89f,#1a7a6e);padding:14px 20px;">',
@@ -1169,15 +1330,11 @@ Error generating stack: `+l.message+`
 
   function inject() {
     if (FOOD_INJECTED) return;
-
-    // 策略1：找到 main.container 下的 div.space-y-12，在「準備好來桃園了嗎？」section 前插入
     var main = document.querySelector('main.container, main[class*="container"]');
     if (!main) main = document.querySelector('main');
     if (!main) return;
-
     var spaceDiv = main.querySelector('div.space-y-12, div[class*="space-y"]');
     if (!spaceDiv) {
-      // fallback: 找到包含 section 的 div
       var divs = main.querySelectorAll('div');
       for (var i = 0; i < divs.length; i++) {
         if (divs[i].querySelectorAll('section').length >= 1) {
@@ -1187,8 +1344,6 @@ Error generating stack: `+l.message+`
       }
     }
     if (!spaceDiv) return;
-
-    // 找到「準備好來桃園了嗎？」section（最後一個 section）
     var ctaSection = null;
     var allSections = spaceDiv.querySelectorAll('section');
     for (var j = 0; j < allSections.length; j++) {
@@ -1197,29 +1352,21 @@ Error generating stack: `+l.message+`
         break;
       }
     }
-
-    // 建立美食時光機卡片
     var wrapper = document.createElement('section');
     wrapper.style.cssText = 'background:transparent;';
     wrapper.innerHTML = buildCard(getSlotData());
-
     if (ctaSection) {
-      // 插入在 CTA section 之前
       spaceDiv.insertBefore(wrapper, ctaSection);
     } else {
-      // fallback: 插入到 spaceDiv 末尾
       spaceDiv.appendChild(wrapper);
     }
-
     FOOD_INJECTED = true;
-    console.log('[DE FoodTimeMachine v3] ✅ 注入成功！時段：' + getSlotData().timeLabel);
+    console.log('[DE FoodTimeMachine v4] ✅ 注入成功！時段：' + getSlotData().timeLabel);
   }
 
-  // MutationObserver 監聽
   var obs = new MutationObserver(function() {
     if (!FOOD_INJECTED) inject();
   });
-
   function start() {
     var root = document.getElementById('root');
     if (root) {
@@ -1229,7 +1376,6 @@ Error generating stack: `+l.message+`
       setTimeout(start, 100);
     }
   }
-
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
   } else {
