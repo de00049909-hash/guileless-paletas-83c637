@@ -1264,6 +1264,60 @@ Error generating stack: `+l.message+`
     // 插入到本週精選後面
     weeklySection.insertAdjacentElement('afterend', ftmSection);
     
+    // === 彩蛋模式：預設隱藏美食時光機 ===
+    ftmSection.style.display = 'none';
+    
+    // 顯示美食時光機的函數
+    function showFoodMachine() {
+      ftmSection.style.display = 'block';
+      setTimeout(function() {
+        ftmSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+    
+    // 綁定「在地美食之旅」卡片的點擊事件
+    function bindFoodCardClick() {
+      var h4s = document.querySelectorAll('h4');
+      var foodCard = null;
+      h4s.forEach(function(h) {
+        if (h.textContent.includes('美食之旅') || h.textContent.includes('在地美食')) {
+          var el = h.parentElement;
+          for (var i = 0; i < 6; i++) {
+            if (el && el.classList && el.classList.contains('group') && el.classList.contains('relative') && el.classList.contains('rounded-xl')) {
+              foodCard = el;
+              break;
+            }
+            if (el) el = el.parentElement;
+          }
+        }
+      });
+      
+      if (foodCard && !foodCard.dataset.foodBound) {
+        foodCard.style.cursor = 'pointer';
+        foodCard.dataset.foodBound = 'true';
+        // 加上薄荷綠發光提示效果
+        foodCard.style.boxShadow = '0 0 0 3px rgba(46, 184, 159, 0.5), 0 8px 32px rgba(46,184,159,0.2)';
+        foodCard.title = '🍽️ 點擊探索美食時光機！';
+        foodCard.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          showFoodMachine();
+        });
+        console.log('✅ 在地美食之旅卡片點擊事件已綁定');
+        return true;
+      }
+      return false;
+    }
+    
+    // 用 setInterval 確保 React 渲染後才綁定卡片
+    var cardBindAttempts = 0;
+    var cardBindInterval = setInterval(function() {
+      cardBindAttempts++;
+      if (bindFoodCardClick() || cardBindAttempts >= 30) {
+        clearInterval(cardBindInterval);
+      }
+    }, 300);
+    
     // 綁定 Tab 事件
     bindTabEvents(ftmSection);
     
@@ -1287,8 +1341,8 @@ Error generating stack: `+l.message+`
           // 平滑滾動
           setTimeout(function() {
             var el = document.getElementById('food-time-machine');
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 150);
+            if (el) showFoodMachine();
+          }, 10);
         });
         console.log('✅ 導覽列美食時光機平滑滾動已綁定');
       }
