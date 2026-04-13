@@ -1389,6 +1389,45 @@ Error generating stack: `+l.message+`
   }
 })();
 
+
+  // 監聽美食時光機選單點擊，平滑滾動到區塊
+  (function addFoodMenuScrollListener() {
+    function bindFoodMenuClick() {
+      const foodMenuBtn = document.querySelector('[data-section="food-time-machine"]');
+      if (foodMenuBtn && !foodMenuBtn._foodScrollBound) {
+        foodMenuBtn._foodScrollBound = true;
+        foodMenuBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          // 關閉所有下拉選單
+          document.querySelectorAll('.de-dropdown-menu').forEach(function(m) {
+            m.classList.remove('de-dropdown-open');
+          });
+          document.querySelectorAll('.de-nav-has-dropdown').forEach(function(b) {
+            b.classList.remove('de-nav-item-open');
+          });
+          // 平滑滾動到美食時光機區塊
+          setTimeout(function() {
+            const foodEl = document.getElementById('food-time-machine');
+            if (foodEl) {
+              foodEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 150);
+        });
+        console.log('✅ 美食時光機選單滾動監聽已綁定');
+      }
+    }
+    // 立即嘗試綁定
+    bindFoodMenuClick();
+    // 如果按鈕還沒渲染，用 interval 等待
+    var bindInterval = setInterval(function() {
+      bindFoodMenuClick();
+      if (document.querySelector('[data-section="food-time-machine"]')) {
+        clearInterval(bindInterval);
+      }
+    }, 500);
+    // 最多等 10 秒
+    setTimeout(function() { clearInterval(bindInterval); }, 10000);
+  })();
 </script>
 <script id="de-food-time-machine-script">
 (function() {
