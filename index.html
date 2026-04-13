@@ -977,148 +977,347 @@ Error generating stack: `+l.message+`
 
   </script>
 <script id="de-food-inject">
-// 夢想不動產 DE 美食情報站：龍岡米干專題注入腳本
-// 在「桃園哪裡吃」區塊最上方插入龍岡米干卡片
+// 🍜 夢想不動產 DE 美食時光機 (Food Time Machine)
+// 根據 getHours() 自動切換 8 個時段的桃園在地美食卡片
+// 版本：v2.0 | 真實店家資料版
 (function() {
   'use strict';
-  var INJECTED_FOOD = false;
+  var FOOD_INJECTED = false;
 
-  function getLongGangHTML() {
-    return '<div id="de-longgang-inject" style="' +
-      'background:linear-gradient(135deg,#f0faf8 0%,#fffdf5 100%);' +
+  // =============================================
+  // 8 個時段的真實店家資料
+  // =============================================
+  var FOOD_DATA = {
+    // 06:00 - 09:00 早餐時光
+    breakfast: {
+      timeLabel: '☕ 早餐時光',
+      timeRange: '06:00 - 09:00',
+      cardTitle: '今日早餐推薦',
+      emoji: '☕',
+      bgGradient: 'linear-gradient(135deg,#fff8f0 0%,#fef3e2 100%)',
+      accentColor: '#e67e22',
+      store: '壹樓早餐 平鎮復興店',
+      area: '平鎮區',
+      address: '桃園市平鎮區復興路23號',
+      dish: '咔啦脆雞墨西哥捲',
+      description: '店內環境溫馨舒適，帶著微微的文青氣息，提供豐富多元的早午餐選擇，是平鎮在地人氣早餐首選。',
+      mapsUrl: 'https://maps.google.com/?q=壹樓早餐+平鎮復興店+桃園',
+      tipText: '建議提早去，熱門時段常排隊！'
+    },
+    // 09:00 - 11:00 早午餐
+    brunch: {
+      timeLabel: '🥞 悠閒早午餐',
+      timeRange: '09:00 - 11:00',
+      cardTitle: '今日早午餐推薦',
+      emoji: '🥞',
+      bgGradient: 'linear-gradient(135deg,#fff0f5 0%,#fce4ec 100%)',
+      accentColor: '#e91e8c',
+      store: 'MATCHI BRUNCH 馬柒早午餐',
+      area: '青埔',
+      address: '桃園市大園區青峰路二段232號1樓',
+      dish: '韓式烤肉溫泉蛋',
+      description: '隱藏於青埔社區的韓系質感店面，主打韓式早午餐盤，不賣常見炸物堡類，是青埔文青必訪打卡點。',
+      mapsUrl: 'https://maps.google.com/?q=MATCHI+BRUNCH+馬柒早午餐+桃園',
+      tipText: '假日建議先預約，座位有限！'
+    },
+    // 11:00 - 14:00 午餐
+    lunch: {
+      timeLabel: '🍱 活力午餐',
+      timeRange: '11:00 - 14:00',
+      cardTitle: '今日午餐推薦',
+      emoji: '🍱',
+      bgGradient: 'linear-gradient(135deg,#f0f9f0 0%,#e8f5e9 100%)',
+      accentColor: '#2e7d32',
+      store: '山の狼便當',
+      area: '中壢區',
+      address: '桃園市中壢區博愛三路1號',
+      dish: '蔥爆牛肉便當',
+      description: '在地人氣便當店，日銷超過3000份！配菜豐富實在，蔥爆牛肉最受歡迎，CP值超高，是中壢上班族的午餐首選。',
+      mapsUrl: 'https://maps.google.com/?q=山の狼便當+中壢+桃園',
+      tipText: '11:30前去可避開排隊高峰！'
+    },
+    // 14:00 - 17:00 下午茶
+    afternoon: {
+      timeLabel: '🍰 下午茶時光',
+      timeRange: '14:00 - 17:00',
+      cardTitle: '今日下午茶推薦',
+      emoji: '🍰',
+      bgGradient: 'linear-gradient(135deg,#fdf6ff 0%,#f3e5f5 100%)',
+      accentColor: '#7b1fa2',
+      store: '好咖 Howcup CURRY CAFE',
+      area: '中壢區',
+      address: '桃園市中壢區中北路19號',
+      dish: '草莓巴斯克起司蛋糕',
+      description: '中壢人氣咖啡廳，以特色咖哩飯和繽紛甜點聞名，季節限定草莓巴斯克更是必點，環境舒適適合久坐。',
+      mapsUrl: 'https://maps.google.com/?q=好咖+Howcup+CURRY+CAFE+中壢+桃園',
+      tipText: '季節限定甜點售完為止，早去早享用！'
+    },
+    // 17:00 - 20:00 晚餐（龍岡米干）
+    dinner: {
+      timeLabel: '🥘 溫馨晚餐',
+      timeRange: '17:00 - 20:00',
+      cardTitle: '今日晚餐推薦',
+      emoji: '🥘',
+      bgGradient: 'linear-gradient(135deg,#f0faf8 0%,#e0f2f1 100%)',
+      accentColor: '#2eb89f',
+      store: '忠貞米干',
+      area: '中壢區（龍岡）',
+      address: '桃園市中壢區中正五路210號',
+      dish: '綜合米干（蛋＋肉＋豬肝）',
+      description: '溫馨家常路線，湯濃味美料多實在，老饕心中龍岡米干第一名！純米手工製作，滑嫩帶有米香，搭配特製肉末與靈魂辣油，是桃園人最完美的晚餐！',
+      mapsUrl: 'https://maps.google.com/?q=忠貞米干+中壢+桃園',
+      tipText: '必加靈魂辣油！半熟蛋戳破融入湯頭，再來一盤豌豆粉絕配！'
+    },
+    // 20:00 - 22:00 宵夜
+    latenight: {
+      timeLabel: '🍢 宵夜解饞',
+      timeRange: '20:00 - 22:00',
+      cardTitle: '今日宵夜推薦',
+      emoji: '🍢',
+      bgGradient: 'linear-gradient(135deg,#fff8e1 0%,#fff3e0 100%)',
+      accentColor: '#f57c00',
+      store: '大香酥香雞排',
+      area: '平鎮區',
+      address: '桃園市平鎮區和平路197號',
+      dish: '蔥肉串',
+      description: '在地人氣鹹酥雞店，獨家肉串與蔥肉串是必點，炸功好不油膩，是平鎮夜貓族的宵夜首選，每晚排隊人潮不斷。',
+      mapsUrl: 'https://maps.google.com/?q=大香酥香雞排+平鎮+桃園',
+      tipText: '蔥肉串＋鹽酥雞是黃金組合！'
+    },
+    // 22:00 - 01:00 餐酒館
+    bar: {
+      timeLabel: '🍸 微醺餐酒館',
+      timeRange: '22:00 - 01:00',
+      cardTitle: '今晚餐酒館推薦',
+      emoji: '🍸',
+      bgGradient: 'linear-gradient(135deg,#1a1a2e 0%,#16213e 100%)',
+      accentColor: '#9c27b0',
+      textColor: 'white',
+      store: 'M3 餐酒館',
+      area: '中壢區（青埔）',
+      address: '桃園市中壢區青峰路一段55號',
+      dish: '柚子胡椒脆皮雞翅',
+      description: '青埔質感人氣餐酒館，現做美味餐點，燈光美氣氛佳，柚子胡椒脆皮雞翅是招牌，約會聚餐首選，週末建議提前訂位。',
+      mapsUrl: 'https://maps.google.com/?q=M3餐酒館+中壢+桃園',
+      tipText: '週末建議提前訂位，現場常客滿！'
+    },
+    // 01:00 - 06:00 夜市
+    nightmarket: {
+      timeLabel: '🌃 夜市美食精選',
+      timeRange: '01:00 - 06:00',
+      cardTitle: '深夜美食推薦',
+      emoji: '🌃',
+      bgGradient: 'linear-gradient(135deg,#0d1b2a 0%,#1b2838 100%)',
+      accentColor: '#ffd700',
+      textColor: 'white',
+      store: '楊記美食小吃城',
+      area: '中壢區',
+      address: '桃園市中壢區新生路109號',
+      dish: '手工肉圓',
+      description: '提供多樣台灣小吃，有大腸麵線、甜不辣、手工肉圓等，店面寬敞明亮，是中壢夜貓族深夜覓食的好去處，24小時不打烊。',
+      mapsUrl: 'https://maps.google.com/?q=楊記美食小吃城+中壢+桃園',
+      tipText: '24小時不打烊，深夜也能吃到熱食！'
+    }
+  };
+
+  // =============================================
+  // 根據小時數取得時段資料
+  // =============================================
+  function getTimeSlotData() {
+    var hour = new Date().getHours();
+    if (hour >= 6 && hour < 9) return FOOD_DATA.breakfast;
+    if (hour >= 9 && hour < 11) return FOOD_DATA.brunch;
+    if (hour >= 11 && hour < 14) return FOOD_DATA.lunch;
+    if (hour >= 14 && hour < 17) return FOOD_DATA.afternoon;
+    if (hour >= 17 && hour < 20) return FOOD_DATA.dinner;
+    if (hour >= 20 && hour < 22) return FOOD_DATA.latenight;
+    if (hour >= 22 || hour < 1) return FOOD_DATA.bar;
+    return FOOD_DATA.nightmarket; // 01:00 - 06:00
+  }
+
+  // =============================================
+  // 產生美食卡片 HTML
+  // =============================================
+  function getFoodCardHTML(data) {
+    var isDark = data.textColor === 'white';
+    var textMain = isDark ? 'white' : '#1f2937';
+    var textSub = isDark ? 'rgba(255,255,255,0.85)' : '#374151';
+    var textMuted = isDark ? 'rgba(255,255,255,0.65)' : '#6b7280';
+    var cardBorder = isDark ? 'none' : '1px solid rgba(46,184,159,0.2)';
+
+    return '<div id="de-food-timemachine" style="' +
+      'background:' + data.bgGradient + ';' +
       'border-radius:15px;' +
-      'box-shadow:0 4px 20px rgba(46,184,159,0.12),0 1px 4px rgba(0,0,0,0.06);' +
-      'border:1px solid #d4ede8;' +
-      'padding:28px 24px 20px;' +
+      'box-shadow:0 4px 24px rgba(0,0,0,0.1),0 1px 4px rgba(0,0,0,0.06);' +
+      'border:' + cardBorder + ';' +
+      'padding:0;' +
       'margin-bottom:24px;' +
       'overflow:hidden;' +
     '">' +
-      // 圖片預留位
-      '<div id="de-food-img-wrap" style="' +
-        'width:100%;' +
-        'height:200px;' +
-        'background:linear-gradient(135deg,#2eb89f22,#f0faf8);' +
-        'border-radius:10px;' +
-        'margin-bottom:20px;' +
-        'display:flex;align-items:center;justify-content:center;' +
-        'border:2px dashed #2eb89f55;' +
-        'position:relative;overflow:hidden;' +
+      // 頂部時段標籤列
+      '<div style="' +
+        'background:' + data.accentColor + ';' +
+        'padding:10px 20px;' +
+        'display:flex;align-items:center;justify-content:space-between;' +
       '">' +
-        '<img id="de-food-img" src="" alt="夢想家族吃米干" ' +
-          'style="width:100%;height:100%;object-fit:cover;border-radius:10px;display:none;" ' +
-          'onerror="this.style.display=\'none\';document.getElementById(\'de-food-placeholder\').style.display=\'flex\';" ' +
-          'onload="this.style.display=\'block\';document.getElementById(\'de-food-placeholder\').style.display=\'none\';" />' +
-        '<div id="de-food-placeholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">' +
-          '<span style="font-size:3rem;">🍜</span>' +
-          '<span style="font-size:0.8rem;color:#2eb89f;font-weight:600;">圖片即將上線</span>' +
-        '</div>' +
+        '<span style="color:white;font-size:0.9rem;font-weight:700;letter-spacing:0.05em;">' +
+          data.timeLabel +
+        '</span>' +
+        '<span style="color:rgba(255,255,255,0.85);font-size:0.75rem;">' +
+          '⏰ ' + data.timeRange +
+        '</span>' +
       '</div>' +
-      // 標題
-      '<h3 style="' +
-        'font-size:1.25rem;font-weight:800;' +
-        'background:linear-gradient(to right,#2eb89f,#1a7a6e);' +
-        '-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;' +
-        'margin:0 0 12px;line-height:1.4;' +
-      '">🍜 尋找桃園的靈魂滋味：龍岡米干與眷村故事</h3>' +
-      // 內文
-      '<p style="font-size:0.9rem;color:#374151;line-height:1.75;margin:0 0 16px;">' +
-        '龍岡米干不僅是異域孤軍留下的家鄉味，更是桃園人引以為傲的飲食文化。純米手工製作，滑嫩帶有米香，搭配特製肉末與靈魂辣油，這就是桃園人最完美的早午餐！' +
-      '</p>' +
-      // 小編私房指南
-      '<div style="background:white;border-radius:10px;padding:14px 16px;margin-bottom:16px;border-left:4px solid #2eb89f;">' +
-        '<p style="font-size:0.82rem;font-weight:700;color:#2eb89f;margin:0 0 10px;letter-spacing:0.05em;">✏️ 小編私房指南</p>' +
-        '<ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">' +
-          '<li style="font-size:0.875rem;color:#374151;line-height:1.6;">' +
-            '<strong style="color:#1f2937;">【必點總匯】</strong>蛋、肉、豬肝缺一不可。' +
-          '</li>' +
-          '<li style="font-size:0.875rem;color:#374151;line-height:1.6;">' +
-            '<strong style="color:#1f2937;">【靈魂加分】</strong>半熟蛋包戳破融入湯頭。' +
-          '</li>' +
-          '<li style="font-size:0.875rem;color:#374151;line-height:1.6;">' +
-            '<strong style="color:#1f2937;">【酸爽絕配】</strong>再來一盤清爽的「豌豆粉」。' +
-          '</li>' +
-        '</ol>' +
+      // 卡片主體
+      '<div style="padding:20px 20px 16px;">' +
+        // 圖片預留位
+        '<div id="de-food-img-wrap" style="' +
+          'width:100%;height:180px;' +
+          'background:rgba(255,255,255,0.15);' +
+          'border-radius:10px;margin-bottom:16px;' +
+          'display:flex;align-items:center;justify-content:center;' +
+          'border:2px dashed rgba(255,255,255,0.3);' +
+          'position:relative;overflow:hidden;' +
+        '">' +
+          '<img id="de-food-img" src="" alt="' + data.store + '" ' +
+            'style="width:100%;height:100%;object-fit:cover;border-radius:10px;display:none;" ' +
+            'onerror="this.style.display=\'none\';document.getElementById(\'de-food-ph\').style.display=\'flex\';" ' +
+            'onload="this.style.display=\'block\';document.getElementById(\'de-food-ph\').style.display=\'none\';" />' +
+          '<div id="de-food-ph" style="display:flex;flex-direction:column;align-items:center;gap:6px;">' +
+            '<span style="font-size:3.5rem;">' + data.emoji + '</span>' +
+            '<span style="font-size:0.75rem;color:' + textMuted + ';font-weight:600;">圖片即將上線</span>' +
+          '</div>' +
+        '</div>' +
+        // 標題
+        '<h3 style="font-size:1.15rem;font-weight:800;color:' + textMain + ';margin:0 0 4px;line-height:1.3;">' +
+          data.cardTitle +
+        '</h3>' +
+        // 店家名稱
+        '<p style="font-size:1rem;font-weight:700;color:' + data.accentColor + (isDark ? '' : '') + ';margin:0 0 8px;">' +
+          '🏪 ' + data.store + '　<span style="font-size:0.75rem;font-weight:400;color:' + textMuted + ';">📍 ' + data.area + '</span>' +
+        '</p>' +
+        // 推薦菜色
+        '<div style="' +
+          'background:rgba(255,255,255,' + (isDark ? '0.1' : '0.7') + ');' +
+          'border-radius:8px;padding:10px 12px;margin-bottom:12px;' +
+          'border-left:3px solid ' + data.accentColor + ';' +
+        '">' +
+          '<span style="font-size:0.78rem;font-weight:700;color:' + data.accentColor + ';">✨ 必點推薦</span>' +
+          '<p style="font-size:0.9rem;font-weight:600;color:' + textMain + ';margin:4px 0 0;">🍽️ ' + data.dish + '</p>' +
+        '</div>' +
+        // 店家介紹
+        '<p style="font-size:0.85rem;color:' + textSub + ';line-height:1.7;margin:0 0 10px;">' +
+          data.description +
+        '</p>' +
+        // 小編小提示
+        '<div style="' +
+          'background:rgba(255,255,255,' + (isDark ? '0.08' : '0.6') + ');' +
+          'border-radius:8px;padding:8px 12px;margin-bottom:14px;' +
+        '">' +
+          '<span style="font-size:0.78rem;color:' + data.accentColor + ';font-weight:700;">💡 小編提示：</span>' +
+          '<span style="font-size:0.8rem;color:' + textSub + ';"> ' + data.tipText + '</span>' +
+        '</div>' +
+        // 地圖連結按鈕
+        '<a href="' + data.mapsUrl + '" target="_blank" rel="noopener" style="' +
+          'display:inline-flex;align-items:center;gap:6px;' +
+          'background:' + data.accentColor + ';' +
+          'color:white;text-decoration:none;' +
+          'padding:8px 16px;border-radius:8px;' +
+          'font-size:0.82rem;font-weight:700;' +
+          'transition:opacity 0.2s;' +
+          'margin-bottom:4px;' +
+        '" onmouseover="this.style.opacity=\'0.85\'" onmouseout="this.style.opacity=\'1\'">' +
+          '📍 Google Maps 導航' +
+        '</a>' +
       '</div>' +
       // 官方連結模組
       '<div style="' +
         'background:linear-gradient(135deg,#2eb89f,#1a7a6e);' +
-        'border-radius:10px;padding:14px 16px;' +
+        'padding:14px 20px;' +
       '">' +
-        '<p style="font-size:0.8rem;color:rgba(255,255,255,0.9);font-weight:600;margin:0 0 10px;">💡 找好案、問行情，歡迎聯繫：</p>' +
-        '<div style="display:flex;flex-direction:column;gap:6px;">' +
+        '<p style="font-size:0.78rem;color:rgba(255,255,255,0.9);font-weight:600;margin:0 0 8px;">💡 找好案、問行情，歡迎聯繫：</p>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:8px;">' +
           '<a href="https://www.dreamestate.com.tw/" target="_blank" rel="noopener" ' +
-            'style="font-size:0.82rem;color:white;text-decoration:none;display:flex;align-items:center;gap:6px;">' +
-            '<span>🌐</span><span>官網看精選：www.dreamestate.com.tw</span>' +
+            'style="font-size:0.78rem;color:white;text-decoration:none;display:flex;align-items:center;gap:4px;">' +
+            '🌐 官網看精選' +
           '</a>' +
+          '<span style="color:rgba(255,255,255,0.4);">|</span>' +
           '<a href="https://www.facebook.com/tthedreamestate/?locale=zh_TW" target="_blank" rel="noopener" ' +
-            'style="font-size:0.82rem;color:white;text-decoration:none;display:flex;align-items:center;gap:6px;">' +
-            '<span>👍</span><span>關注粉專：夢想不動產</span>' +
+            'style="font-size:0.78rem;color:white;text-decoration:none;display:flex;align-items:center;gap:4px;">' +
+            '👍 關注粉專' +
           '</a>' +
+          '<span style="color:rgba(255,255,255,0.4);">|</span>' +
           '<a href="https://page.line.me/768fuhqm" target="_blank" rel="noopener" ' +
-            'style="font-size:0.82rem;color:white;text-decoration:none;display:flex;align-items:center;gap:6px;">' +
-            '<span>💬</span><span>加官方LINE：@768fuhqm</span>' +
+            'style="font-size:0.78rem;color:white;text-decoration:none;display:flex;align-items:center;gap:4px;">' +
+            '💬 加官方LINE @768fuhqm' +
           '</a>' +
         '</div>' +
       '</div>' +
     '</div>';
   }
 
-  function injectFoodSection() {
-    if (INJECTED_FOOD) return;
+  // =============================================
+  // 注入美食時光機到頁面
+  // =============================================
+  function injectFoodTimeMachine() {
+    if (FOOD_INJECTED) return;
+
     // 找到「桃園哪裡吃」標題
-    var allH2 = document.querySelectorAll('h2, h3, h4');
+    var allTitles = document.querySelectorAll('h2, h3, h4');
     var foodTitle = null;
-    for (var i = 0; i < allH2.length; i++) {
-      if (allH2[i].textContent && allH2[i].textContent.indexOf('桃園哪裡吃') >= 0) {
-        foodTitle = allH2[i];
+    for (var i = 0; i < allTitles.length; i++) {
+      if (allTitles[i].textContent && allTitles[i].textContent.indexOf('桃園哪裡吃') >= 0) {
+        foodTitle = allTitles[i];
         break;
       }
     }
     if (!foodTitle) return;
 
-    // 找到包含美食卡片的容器（向上找到有多個子元素的 div）
-    var container = foodTitle.parentElement;
-    while (container && container.children.length < 2) {
-      container = container.parentElement;
+    // 找到包含美食卡片的容器
+    var container = foodTitle.closest('div.space-y-12') ||
+                    foodTitle.closest('div.space-y-8') ||
+                    foodTitle.closest('section');
+
+    if (!container) {
+      // fallback: 找到有多個子元素的父容器
+      container = foodTitle.parentElement;
+      while (container && container.children.length < 2) {
+        container = container.parentElement;
+      }
     }
     if (!container) return;
 
-    // 找到卡片列表（包含「大溪豆干」等卡片的容器）
+    // 找到卡片列表容器
     var cardContainer = null;
-    var allDivs = container.querySelectorAll('div');
-    for (var j = 0; j < allDivs.length; j++) {
-      if (allDivs[j].children.length >= 3 && allDivs[j].textContent.indexOf('大溪豆干') >= 0) {
-        cardContainer = allDivs[j];
+    var divs = container.querySelectorAll('div');
+    for (var j = 0; j < divs.length; j++) {
+      if (divs[j].children.length >= 2 &&
+          (divs[j].textContent.indexOf('大溪豆干') >= 0 ||
+           divs[j].textContent.indexOf('龍潭花生') >= 0)) {
+        cardContainer = divs[j];
         break;
       }
     }
-    if (!cardContainer) {
-      // fallback: 直接在 foodTitle 的父容器最前面插入
-      cardContainer = container;
-    }
+    if (!cardContainer) cardContainer = container;
 
-    // 插入龍岡米干卡片
+    // 產生並插入卡片
+    var data = getTimeSlotData();
     var wrapper = document.createElement('div');
-    wrapper.innerHTML = getLongGangHTML();
+    wrapper.innerHTML = getFoodCardHTML(data);
     cardContainer.insertBefore(wrapper.firstChild, cardContainer.firstChild);
-    INJECTED_FOOD = true;
-    console.log('[DE Inject] 龍岡米干卡片注入成功！');
+    FOOD_INJECTED = true;
+    console.log('[DE FoodTimeMachine] 注入成功！時段：' + data.timeLabel + ' | 店家：' + data.store);
   }
 
   // MutationObserver 監聽 DOM 變化
-  var observer = new MutationObserver(function(mutations) {
-    if (!INJECTED_FOOD) {
-      injectFoodSection();
-    }
+  var observer = new MutationObserver(function() {
+    if (!FOOD_INJECTED) injectFoodTimeMachine();
   });
 
-  // 等待 React 初始化後開始監聽
   function startObserver() {
     var root = document.getElementById('root');
     if (root) {
       observer.observe(root, { childList: true, subtree: true });
-      // 立即嘗試注入
-      injectFoodSection();
+      injectFoodTimeMachine();
     } else {
       setTimeout(startObserver, 100);
     }
