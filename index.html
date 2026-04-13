@@ -1389,6 +1389,279 @@ Error generating stack: `+l.message+`
 })();
 
 </script>
+<script id="de-food-time-machine-script">
+(function() {
+  'use strict';
+  if (window.__DE_FOOD_V5_LOADED) return;
+  window.__DE_FOOD_V5_LOADED = true;
+
+  var FOOD_INJECTED = false;
+
+  // 品牌色
+  var mint = '#2eb89f';
+  var mintDark = '#1a7a6e';
+  var mintLight = '#e8f8f5';
+  var mintBorder = '#b2dfdb';
+
+  // 8 個時段資料
+  function getSlotData() {
+    var h = new Date().getHours();
+    var slots = [
+      // 06:00-09:00 早餐
+      {
+        startH: 6, endH: 9,
+        emoji: '☕', timeLabel: '今日早餐推薦',
+        accentColor: '#e67e22',
+        cardTitle: '☕ 早餐時光：中壢永和豆漿大王',
+        store: '永和豆漿大王（中壢民族路）',
+        area: '中壢',
+        dish: '燒餅油條 + 熱豆漿加蛋',
+        description: '半夜12點仍需排隊的在地老字號！現做燒餅油條酥脆飄香，搭配濃醇熱豆漿，是桃園人最有溫度的早晨儀式。',
+        tip: '建議平日早上 7-8 點前去，假日人潮超多，要有耐心排隊！',
+        mapsUrl: 'https://maps.google.com/?q=永和豆漿大王+中壢'
+      },
+      // 09:00-11:00 早午餐
+      {
+        startH: 9, endH: 11,
+        emoji: '🥞', timeLabel: '今日早午餐推薦',
+        accentColor: '#8e44ad',
+        cardTitle: '🥞 悠閒早午餐：MATCHI BRUNCH 馬柒',
+        store: 'MATCHI BRUNCH 馬柒早午餐（青埔）',
+        area: '青埔',
+        dish: '韓式烤肉溫泉蛋早午餐',
+        description: '青埔最受歡迎的韓系文青早午餐！溫泉蛋滑嫩、韓式烤肉鹹香，搭配精緻擺盤，假日必訂位的網美打卡聖地。',
+        tip: '假日建議先預約，或平日前往，環境舒適適合帶朋友聚會。',
+        mapsUrl: 'https://maps.google.com/?q=MATCHI+BRUNCH+馬柒+青埔'
+      },
+      // 11:00-14:00 午餐
+      {
+        startH: 11, endH: 14,
+        emoji: '🍱', timeLabel: '今日午餐推薦',
+        accentColor: '#c0392b',
+        cardTitle: '🍱 活力午餐：正宗新明老牌牛肉麵',
+        store: '正宗新明老牌牛肉麵（中壢）',
+        area: '中壢',
+        dish: '半筋半肉牛肉麵',
+        description: '中壢在地超過 30 年的老字號！湯頭濃郁帶有中藥香氣，半筋半肉口感豐富，是在地人午餐的首選。',
+        tip: '午餐時段人潮最多，建議 11:30 前到或 13:00 後去，避開尖峰。',
+        mapsUrl: 'https://maps.google.com/?q=正宗新明老牌牛肉麵+中壢'
+      },
+      // 14:00-17:00 下午茶
+      {
+        startH: 14, endH: 17,
+        emoji: '🍰', timeLabel: '今日下午茶推薦',
+        accentColor: '#e91e8c',
+        cardTitle: '🍰 下午茶時光：好咖 Howcup CURRY CAFE',
+        store: '好咖 Howcup CURRY CAFE（中壢）',
+        area: '中壢',
+        dish: '咖哩飯套餐 + 特調咖啡',
+        description: '中壢最有個性的咖啡咖哩複合店！手沖咖啡香氣十足，日式咖哩濃郁不辣，下午茶時段還有精緻甜點，是文青族的秘密基地。',
+        tip: '下午 2-5 點是最舒適的時段，可以悠閒工作或聊天，WiFi 穩定。',
+        mapsUrl: 'https://maps.google.com/?q=好咖+Howcup+CURRY+CAFE+中壢'
+      },
+      // 17:00-20:00 晚餐（龍岡米干）
+      {
+        startH: 17, endH: 20,
+        emoji: '🥘', timeLabel: '今日晚餐推薦',
+        accentColor: mint,
+        cardTitle: '🥘 溫馨晚餐：忠貞米干（龍岡）',
+        store: '忠貞米干（龍岡眷村）',
+        area: '龍岡',
+        dish: '總匯米干（蛋＋肉＋豬肝）',
+        description: '龍岡米干不僅是異域孤軍留下的家鄉味，更是桃園人引以為傲的飲食文化。純米手工製作，滑嫩帶有米香，搭配特製肉末與靈魂辣油，這就是桃園人最完美的晚餐！',
+        tip: '必點「總匯」蛋、肉、豬肝缺一不可！半熟蛋包戳破融入湯頭，再來一盤清爽的豌豆粉，絕配！',
+        mapsUrl: 'https://maps.google.com/?q=忠貞米干+龍岡'
+      },
+      // 20:00-22:00 宵夜
+      {
+        startH: 20, endH: 22,
+        emoji: '🍢', timeLabel: '今晚宵夜推薦',
+        accentColor: '#f39c12',
+        cardTitle: '🍢 宵夜解饞：大香酥香雞排（平鎮）',
+        store: '大香酥香雞排（平鎮）',
+        area: '平鎮',
+        dish: '招牌大雞排 + 鹹酥雞',
+        description: '平鎮在地人氣炸物攤！雞排外皮酥脆、內裡多汁，現炸現賣香氣四溢，是下班後最療癒的宵夜選擇。',
+        tip: '晚上 8 點後人潮最多，建議先電話預訂或提早到場，等候時間約 10-15 分鐘。',
+        mapsUrl: 'https://maps.google.com/?q=大香酥香雞排+平鎮'
+      },
+      // 22:00-01:00 餐酒館（跨午夜）
+      {
+        startH: 22, endH: 25, // 25 代表隔天 01:00
+        emoji: '🍸', timeLabel: '今晚微醺推薦',
+        accentColor: '#6c3483',
+        cardTitle: '🍸 微醺餐酒館：M3 餐酒館（中壢青埔）',
+        store: 'M3 餐酒館（中壢青埔）',
+        area: '中壢青埔',
+        dish: '精釀啤酒 + 炸物拼盤',
+        description: '青埔最有氣氛的現代餐酒館！精選台灣精釀啤酒搭配創意下酒菜，週末還有現場音樂演出，是桃園夜生活的最佳選擇。',
+        tip: '建議週五、六前往，氣氛最佳！可提前訂位，熱門時段座位有限。',
+        mapsUrl: 'https://maps.google.com/?q=M3+餐酒館+中壢'
+      },
+      // 01:00-06:00 夜市
+      {
+        startH: 1, endH: 6,
+        emoji: '🌃', timeLabel: '深夜美食推薦',
+        accentColor: '#2c3e50',
+        cardTitle: '🌃 深夜食堂：永川牛肉麵（中壢）',
+        store: '永川牛肉麵（中壢民權路）',
+        area: '中壢',
+        dish: '招牌牛肉麵 + 小菜',
+        description: '中壢最傳奇的 24 小時牛肉麵！在地超過一甲子，深夜也能吃到熱騰騰的牛肉麵，湯頭清澈鮮甜，可免費加湯加麵，是夜貓族的深夜救星。',
+        tip: '24 小時全年無休！深夜 2-4 點人潮最少，可以安靜享用。免費加湯記得開口說。',
+        mapsUrl: 'https://maps.google.com/?q=永川牛肉麵+中壢'
+      }
+    ];
+
+    // 根據小時數找對應時段
+    for (var i = 0; i < slots.length; i++) {
+      var s = slots[i];
+      if (s.startH <= h && h < s.endH) return s;
+      // 處理跨午夜（22:00-01:00）
+      if (s.startH === 22 && (h >= 22 || h < 1)) return s;
+    }
+    // 預設返回晚餐（龍岡米干）
+    return slots[4];
+  }
+
+  function buildCard(d) {
+    return [
+      '<div style="background:white;border-radius:16px;overflow:hidden;',
+        'box-shadow:0 4px 20px rgba(46,184,159,0.15),0 1px 6px rgba(0,0,0,0.08);',
+        'border:1px solid ', mintBorder, ';">',
+        // 頂部時段標籤
+        '<div style="background:linear-gradient(135deg,', d.accentColor, ',', mintDark, ');',
+          'padding:10px 20px;display:flex;align-items:center;justify-content:space-between;">',
+          '<span style="font-size:0.85rem;font-weight:800;color:white;letter-spacing:0.5px;">',
+            '🍽️ ', d.timeLabel,
+          '</span>',
+          '<span style="font-size:0.75rem;color:rgba(255,255,255,0.8);">',
+            '📍 桃園在地精選',
+          '</span>',
+        '</div>',
+        // 卡片主體
+        '<div style="padding:20px;background:', mintLight, ';">',
+          // 圖片預留位
+          '<div style="width:100%;height:160px;border-radius:10px;margin-bottom:14px;',
+            'background:linear-gradient(135deg,rgba(46,184,159,0.1),rgba(46,184,159,0.2));',
+            'display:flex;align-items:center;justify-content:center;',
+            'border:2px dashed rgba(46,184,159,0.3);">',
+            '<div style="text-align:center;">',
+              '<div style="font-size:3rem;">', d.emoji, '</div>',
+              '<div style="font-size:0.72rem;color:#888;margin-top:4px;font-weight:600;">圖片即將上線</div>',
+            '</div>',
+          '</div>',
+          // 標題
+          '<h3 style="font-size:1.1rem;font-weight:800;color:#1a2e2a;margin:0 0 6px;">',
+            d.cardTitle,
+          '</h3>',
+          // 店家
+          '<p style="font-size:0.95rem;font-weight:700;color:', d.accentColor, ';margin:0 0 10px;">',
+            '🏪 ', d.store,
+            '<span style="font-size:0.72rem;font-weight:400;color:#888;margin-left:8px;">📍 ', d.area, '</span>',
+          '</p>',
+          // 必點
+          '<div style="background:white;border-radius:8px;padding:10px 12px;margin-bottom:10px;',
+            'border-left:3px solid ', d.accentColor, ';">',
+            '<div style="font-size:0.75rem;font-weight:700;color:', d.accentColor, ';">✨ 必點推薦</div>',
+            '<div style="font-size:0.88rem;font-weight:600;color:#1a2e2a;margin-top:3px;">🍽️ ', d.dish, '</div>',
+          '</div>',
+          // 介紹
+          '<p style="font-size:0.83rem;color:#555;line-height:1.7;margin:0 0 10px;">', d.description, '</p>',
+          // 提示
+          '<div style="background:white;border-radius:8px;padding:8px 12px;margin-bottom:14px;">',
+            '<span style="font-size:0.75rem;color:', d.accentColor, ';font-weight:700;">💡 小編提示：</span>',
+            '<span style="font-size:0.78rem;color:#666;"> ', d.tip, '</span>',
+          '</div>',
+          // 地圖按鈕
+          '<a href="', d.mapsUrl, '" target="_blank" rel="noopener" ',
+            'style="display:inline-flex;align-items:center;gap:6px;background:', d.accentColor, ';',
+            'color:white;text-decoration:none;padding:8px 16px;border-radius:8px;',
+            'font-size:0.82rem;font-weight:700;">',
+            '📍 Google Maps 導航',
+          '</a>',
+        '</div>',
+        // 官方連結模組
+        '<div style="background:linear-gradient(135deg,', mint, ',', mintDark, ');padding:14px 20px;">',
+          '<p style="font-size:0.75rem;color:rgba(255,255,255,0.9);font-weight:600;margin:0 0 8px;">',
+            '💡 找好案、問行情，歡迎聯繫：',
+          '</p>',
+          '<div style="display:flex;flex-wrap:wrap;gap:10px;">',
+            '<a href="https://www.dreamestate.com.tw/" target="_blank" rel="noopener" ',
+              'style="font-size:0.78rem;color:white;text-decoration:none;">🌐 官網看精選</a>',
+            '<span style="color:rgba(255,255,255,0.35);">|</span>',
+            '<a href="https://www.facebook.com/tthedreamestate/?locale=zh_TW" target="_blank" rel="noopener" ',
+              'style="font-size:0.78rem;color:white;text-decoration:none;">👍 關注粉專</a>',
+            '<span style="color:rgba(255,255,255,0.35);">|</span>',
+            '<a href="https://page.line.me/768fuhqm" target="_blank" rel="noopener" ',
+              'style="font-size:0.78rem;color:white;text-decoration:none;">💬 加官方LINE @768fuhqm</a>',
+          '</div>',
+        '</div>',
+      '</div>'
+    ].join('');
+  }
+
+  function tryInject() {
+    if (FOOD_INJECTED) return true;
+
+    var main = document.querySelector('main.container, main[class*="container"]');
+    if (!main) main = document.querySelector('main');
+    if (!main) return false;
+
+    var spaceDiv = main.querySelector('div.space-y-12, div[class*="space-y"]');
+    if (!spaceDiv) return false;
+
+    // 確認 spaceDiv 裡有至少 2 個直接子 section（React 已渲染完成）
+    var directSections = spaceDiv.querySelectorAll(':scope > section');
+    if (directSections.length < 2) return false;
+
+    // 建立美食時光機卡片
+    var wrapper = document.createElement('section');
+    wrapper.id = 'de-food-time-machine';
+    wrapper.style.cssText = 'background:transparent;';
+    wrapper.innerHTML = [
+      '<div style="margin-bottom:0;">',
+        '<h2 style="font-size:1.4rem;font-weight:800;color:#1a2e2a;margin:0 0 16px;',
+          'display:flex;align-items:center;gap:8px;">',
+          '<span style="background:linear-gradient(135deg,', mint, ',', mintDark, ');',
+            'color:white;padding:4px 12px;border-radius:20px;font-size:1rem;">',
+            '🍽️ 美食時光機',
+          '</span>',
+          '<span style="font-size:0.8rem;font-weight:400;color:#888;">現在是美食時間！</span>',
+        '</h2>',
+        buildCard(getSlotData()),
+      '</div>'
+    ].join('');
+
+    // 插入到最後一個 section 之後
+    var lastSec = directSections[directSections.length - 1];
+    if (lastSec.nextSibling) {
+      spaceDiv.insertBefore(wrapper, lastSec.nextSibling);
+    } else {
+      spaceDiv.appendChild(wrapper);
+    }
+
+    FOOD_INJECTED = true;
+    console.log('[DE FoodTimeMachine v5] ✅ 注入成功！時段：' + getSlotData().timeLabel);
+    return true;
+  }
+
+  // 使用 setInterval 輪詢，確保 React 渲染完成後才注入
+  var attempts = 0;
+  var maxAttempts = 50; // 最多嘗試 50 次（10 秒）
+  var timer = setInterval(function() {
+    attempts++;
+    if (tryInject() || attempts >= maxAttempts) {
+      clearInterval(timer);
+      if (attempts >= maxAttempts && !FOOD_INJECTED) {
+        console.warn('[DE FoodTimeMachine v5] ⚠️ 超過最大嘗試次數，注入失敗');
+      }
+    }
+  }, 200);
+
+})();
+
+</script>
 </body>
 
 </html>
