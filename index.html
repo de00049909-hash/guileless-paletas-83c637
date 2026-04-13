@@ -976,6 +976,162 @@ Error generating stack: `+l.message+`
 })();
 
   </script>
+<script id="de-food-inject">
+// 夢想不動產 DE 美食情報站：龍岡米干專題注入腳本
+// 在「桃園哪裡吃」區塊最上方插入龍岡米干卡片
+(function() {
+  'use strict';
+  var INJECTED_FOOD = false;
+
+  function getLongGangHTML() {
+    return '<div id="de-longgang-inject" style="' +
+      'background:linear-gradient(135deg,#f0faf8 0%,#fffdf5 100%);' +
+      'border-radius:15px;' +
+      'box-shadow:0 4px 20px rgba(46,184,159,0.12),0 1px 4px rgba(0,0,0,0.06);' +
+      'border:1px solid #d4ede8;' +
+      'padding:28px 24px 20px;' +
+      'margin-bottom:24px;' +
+      'overflow:hidden;' +
+    '">' +
+      // 圖片預留位
+      '<div id="de-food-img-wrap" style="' +
+        'width:100%;' +
+        'height:200px;' +
+        'background:linear-gradient(135deg,#2eb89f22,#f0faf8);' +
+        'border-radius:10px;' +
+        'margin-bottom:20px;' +
+        'display:flex;align-items:center;justify-content:center;' +
+        'border:2px dashed #2eb89f55;' +
+        'position:relative;overflow:hidden;' +
+      '">' +
+        '<img id="de-food-img" src="" alt="夢想家族吃米干" ' +
+          'style="width:100%;height:100%;object-fit:cover;border-radius:10px;display:none;" ' +
+          'onerror="this.style.display=\'none\';document.getElementById(\'de-food-placeholder\').style.display=\'flex\';" ' +
+          'onload="this.style.display=\'block\';document.getElementById(\'de-food-placeholder\').style.display=\'none\';" />' +
+        '<div id="de-food-placeholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">' +
+          '<span style="font-size:3rem;">🍜</span>' +
+          '<span style="font-size:0.8rem;color:#2eb89f;font-weight:600;">圖片即將上線</span>' +
+        '</div>' +
+      '</div>' +
+      // 標題
+      '<h3 style="' +
+        'font-size:1.25rem;font-weight:800;' +
+        'background:linear-gradient(to right,#2eb89f,#1a7a6e);' +
+        '-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;' +
+        'margin:0 0 12px;line-height:1.4;' +
+      '">🍜 尋找桃園的靈魂滋味：龍岡米干與眷村故事</h3>' +
+      // 內文
+      '<p style="font-size:0.9rem;color:#374151;line-height:1.75;margin:0 0 16px;">' +
+        '龍岡米干不僅是異域孤軍留下的家鄉味，更是桃園人引以為傲的飲食文化。純米手工製作，滑嫩帶有米香，搭配特製肉末與靈魂辣油，這就是桃園人最完美的早午餐！' +
+      '</p>' +
+      // 小編私房指南
+      '<div style="background:white;border-radius:10px;padding:14px 16px;margin-bottom:16px;border-left:4px solid #2eb89f;">' +
+        '<p style="font-size:0.82rem;font-weight:700;color:#2eb89f;margin:0 0 10px;letter-spacing:0.05em;">✏️ 小編私房指南</p>' +
+        '<ol style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;">' +
+          '<li style="font-size:0.875rem;color:#374151;line-height:1.6;">' +
+            '<strong style="color:#1f2937;">【必點總匯】</strong>蛋、肉、豬肝缺一不可。' +
+          '</li>' +
+          '<li style="font-size:0.875rem;color:#374151;line-height:1.6;">' +
+            '<strong style="color:#1f2937;">【靈魂加分】</strong>半熟蛋包戳破融入湯頭。' +
+          '</li>' +
+          '<li style="font-size:0.875rem;color:#374151;line-height:1.6;">' +
+            '<strong style="color:#1f2937;">【酸爽絕配】</strong>再來一盤清爽的「豌豆粉」。' +
+          '</li>' +
+        '</ol>' +
+      '</div>' +
+      // 官方連結模組
+      '<div style="' +
+        'background:linear-gradient(135deg,#2eb89f,#1a7a6e);' +
+        'border-radius:10px;padding:14px 16px;' +
+      '">' +
+        '<p style="font-size:0.8rem;color:rgba(255,255,255,0.9);font-weight:600;margin:0 0 10px;">💡 找好案、問行情，歡迎聯繫：</p>' +
+        '<div style="display:flex;flex-direction:column;gap:6px;">' +
+          '<a href="https://www.dreamestate.com.tw/" target="_blank" rel="noopener" ' +
+            'style="font-size:0.82rem;color:white;text-decoration:none;display:flex;align-items:center;gap:6px;">' +
+            '<span>🌐</span><span>官網看精選：www.dreamestate.com.tw</span>' +
+          '</a>' +
+          '<a href="https://www.facebook.com/tthedreamestate/?locale=zh_TW" target="_blank" rel="noopener" ' +
+            'style="font-size:0.82rem;color:white;text-decoration:none;display:flex;align-items:center;gap:6px;">' +
+            '<span>👍</span><span>關注粉專：夢想不動產</span>' +
+          '</a>' +
+          '<a href="https://page.line.me/768fuhqm" target="_blank" rel="noopener" ' +
+            'style="font-size:0.82rem;color:white;text-decoration:none;display:flex;align-items:center;gap:6px;">' +
+            '<span>💬</span><span>加官方LINE：@768fuhqm</span>' +
+          '</a>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function injectFoodSection() {
+    if (INJECTED_FOOD) return;
+    // 找到「桃園哪裡吃」標題
+    var allH2 = document.querySelectorAll('h2, h3, h4');
+    var foodTitle = null;
+    for (var i = 0; i < allH2.length; i++) {
+      if (allH2[i].textContent && allH2[i].textContent.indexOf('桃園哪裡吃') >= 0) {
+        foodTitle = allH2[i];
+        break;
+      }
+    }
+    if (!foodTitle) return;
+
+    // 找到包含美食卡片的容器（向上找到有多個子元素的 div）
+    var container = foodTitle.parentElement;
+    while (container && container.children.length < 2) {
+      container = container.parentElement;
+    }
+    if (!container) return;
+
+    // 找到卡片列表（包含「大溪豆干」等卡片的容器）
+    var cardContainer = null;
+    var allDivs = container.querySelectorAll('div');
+    for (var j = 0; j < allDivs.length; j++) {
+      if (allDivs[j].children.length >= 3 && allDivs[j].textContent.indexOf('大溪豆干') >= 0) {
+        cardContainer = allDivs[j];
+        break;
+      }
+    }
+    if (!cardContainer) {
+      // fallback: 直接在 foodTitle 的父容器最前面插入
+      cardContainer = container;
+    }
+
+    // 插入龍岡米干卡片
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML = getLongGangHTML();
+    cardContainer.insertBefore(wrapper.firstChild, cardContainer.firstChild);
+    INJECTED_FOOD = true;
+    console.log('[DE Inject] 龍岡米干卡片注入成功！');
+  }
+
+  // MutationObserver 監聽 DOM 變化
+  var observer = new MutationObserver(function(mutations) {
+    if (!INJECTED_FOOD) {
+      injectFoodSection();
+    }
+  });
+
+  // 等待 React 初始化後開始監聽
+  function startObserver() {
+    var root = document.getElementById('root');
+    if (root) {
+      observer.observe(root, { childList: true, subtree: true });
+      // 立即嘗試注入
+      injectFoodSection();
+    } else {
+      setTimeout(startObserver, 100);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startObserver);
+  } else {
+    startObserver();
+  }
+})();
+
+</script>
 </body>
 
 </html>
