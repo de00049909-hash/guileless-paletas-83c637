@@ -813,7 +813,7 @@ export default function Home() {
   // 2026 年桃園重大交通建設資料
 
   // 機場捷運 14 站資料（來源：桃園捷運公司官網、桃園市政府地政局114年Q4機捷沿線不動產交易行情分析）
-  const [selectedMrtStation, setSelectedMrtStation] = React.useState<number | null>(null);
+  const [selectedMrtStation, setSelectedMrtStation] = useState<number | null>(null);
   const airportMrtStations = [
     {
       id: 'A1', name: '台北車站', segment: 'taipei', city: '台北市中正區',
