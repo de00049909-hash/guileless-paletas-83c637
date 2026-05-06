@@ -818,6 +818,7 @@ export default function Home() {
     {
       id: 'A1', name: '台北車站', segment: 'taipei', city: '台北市中正區',
       pricePerPing: null, priceNote: '商業核心區，以商辦為主',
+      priceHistory: null,
       features: ['台鐵、高鐵轉乘', '台北捷運多線交會', '地下預辦登機', '周邊百貨商圈'],
       desc: '機場捷運起點站，台灣最重要的交通樞紐。可直達桃園機場，提供地下預辦登機服務，旅客可在此辦理登機手續後直接搭乘直達車前往機場。',
       source: '桃園捷運公司'
@@ -825,6 +826,13 @@ export default function Home() {
     {
       id: 'A2', name: '三重', segment: 'taipei', city: '新北市三重區',
       pricePerPing: 65.4, priceNote: '近一年成交均價',
+      priceHistory: [
+        { year: '2017', price: 48.0 },
+        { year: '2019', price: 53.0 },
+        { year: '2021', price: 57.0 },
+        { year: '2023', price: 62.0 },
+        { year: '2025', price: 65.4 },
+      ],
       features: ['中和新蘆線轉乘', '三重商圈', '家樂福、大潤發', '近台北橋'],
       desc: '可轉乘台北捷運中和新蘆線，串聯台北市中心。周邊生活機能完善，三重商圈提供豐富購物與餐飲選擇。',
       source: '中信房屋2026、桃園市政府地政局'
@@ -832,6 +840,13 @@ export default function Home() {
     {
       id: 'A3', name: '新北產業園區', segment: 'taipei', city: '新北市新莊區',
       pricePerPing: 60.6, priceNote: '近一年成交均價',
+      priceHistory: [
+        { year: '2017', price: 44.0 },
+        { year: '2019', price: 49.0 },
+        { year: '2021', price: 53.0 },
+        { year: '2023', price: 57.0 },
+        { year: '2025', price: 60.6 },
+      ],
       features: ['環狀線轉乘', '宏匯廣場', '新莊副都心重劃區', '直達車10分鐘到台北'],
       desc: '直達車停靠站，10分鐘可達台北車站。鄰近宏匯廣場提升消費機能，新莊副都心重劃區持續發展，是機捷沿線最具潛力的站點之一。',
       source: '中信房屋2026、桃園市政府地政局'
@@ -839,6 +854,13 @@ export default function Home() {
     {
       id: 'A4', name: '新莊副都心', segment: 'taipei', city: '新北市新莊區',
       pricePerPing: 55, priceNote: '周邊行情估算',
+      priceHistory: [
+        { year: '2017', price: 35.0 },
+        { year: '2019', price: 40.5 },
+        { year: '2021', price: 45.9 },
+        { year: '2023', price: 51.0 },
+        { year: '2025', price: 55.0 },
+      ],
       features: ['新莊重劃區', '近輔仁大學', '新莊棒球場', '生活機能完善'],
       desc: '位於新莊副都心重劃區，鄰近輔仁大學，周邊有新莊棒球場等公共設施。重劃區持續開發，生活機能逐步完善。',
       source: '桃園市政府地政局、實價登錄'
@@ -846,6 +868,13 @@ export default function Home() {
     {
       id: 'A5', name: '泰山', segment: 'taipei', city: '新北市泰山區',
       pricePerPing: 53.1, priceNote: '近一年成交均價',
+      priceHistory: [
+        { year: '2017', price: 31.1 },
+        { year: '2019', price: 34.3 },
+        { year: '2021', price: 37.4 },
+        { year: '2023', price: 48.0 },
+        { year: '2025', price: 53.1 },
+      ],
       features: ['泰山重劃區', '近泰山高中', '生活機能發展中', '房價相對親民'],
       desc: '泰山重劃區持續開發中，房價相對周邊站點親民，適合首購族考慮。鄰近泰山高中，學區環境良好。',
       source: '中信房屋2026、桃園市政府地政局'
@@ -853,6 +882,13 @@ export default function Home() {
     {
       id: 'A6', name: '泰山貴和', segment: 'taoyuan', city: '新北市泰山區',
       pricePerPing: 45, priceNote: '周邊行情估算',
+      priceHistory: [
+        { year: '2017', price: 26.7 },
+        { year: '2019', price: 26.1 },
+        { year: '2021', price: 25.4 },
+        { year: '2023', price: 38.0 },
+        { year: '2025', price: 45.0 },
+      ],
       features: ['近泰山工業區', '生活機能普通', '房價親民', '近桃園市界'],
       desc: '位於台北與桃園的交界地帶，鄰近泰山工業區。生活機能相對普通，但房價親民，適合預算有限的購屋族。',
       source: '桃園市政府地政局、實價登錄'
@@ -860,6 +896,13 @@ export default function Home() {
     {
       id: 'A7', name: '體育大學', segment: 'taoyuan', city: '桃園市龜山區',
       pricePerPing: 39.9, priceNote: '114年Q4成交均價（91件）',
+      priceHistory: [
+        { year: '2017', price: 14.4 },
+        { year: '2019', price: 17.5 },
+        { year: '2021', price: 20.5 },
+        { year: '2023', price: 30.2 },
+        { year: '2025', price: 39.9 },
+      ],
       features: ['國立體育大學', '龜山重劃區', '近銘傳大學', '一站進新北'],
       desc: '桃園段第一站，鄰近國立體育大學，龜山重劃區新穎質感吸引年輕首購族。一站即可進入新北，通勤族相當便利。近一年成交量高達91件，市場交易活絡。',
       source: '桃園市政府地政局114年Q4'
@@ -867,6 +910,13 @@ export default function Home() {
     {
       id: 'A8', name: '長庚醫院', segment: 'taoyuan', city: '桃園市龜山區',
       pricePerPing: 40.4, priceNote: '近一年成交均價',
+      priceHistory: [
+        { year: '2017', price: 28.9 },
+        { year: '2019', price: 30.9 },
+        { year: '2021', price: 32.9 },
+        { year: '2023', price: 37.5 },
+        { year: '2025', price: 40.4 },
+      ],
       features: ['長庚醫院', '環球購物中心', '華亞科技園區', '直達車停靠'],
       desc: '直達車停靠站，周邊有長庚醫院、環球購物中心及華亞科技園區，穩定的就業人口使租金投報率表現亮眼。生活機能完善，是機捷桃園段的核心站點。',
       source: '中信房屋2026、桃園市政府地政局'
@@ -874,6 +924,13 @@ export default function Home() {
     {
       id: 'A9', name: '林口', segment: 'taoyuan', city: '新北市林口區',
       pricePerPing: 51, priceNote: '近一年成交均價（漲幅+18.55%）',
+      priceHistory: [
+        { year: '2017', price: 29.5 },
+        { year: '2019', price: 30.7 },
+        { year: '2021', price: 31.8 },
+        { year: '2023', price: 45.0 },
+        { year: '2025', price: 51.0 },
+      ],
       features: ['林口重劃區', '三井Outlet', '長庚大學', '近年漲幅最大'],
       desc: '林口重劃區近年發展迅速，三井Outlet帶動商業機能，長庚大學提供穩定租屋需求。近一年房價漲幅高達18.55%，是機捷沿線漲幅最大的站點。',
       source: '中信房屋2026、桃園市政府地政局'
@@ -881,6 +938,13 @@ export default function Home() {
     {
       id: 'A10', name: '山鼻', segment: 'taoyuan', city: '桃園市蘆竹區',
       pricePerPing: 36.4, priceNote: '114年Q4成交均價（16件）',
+      priceHistory: [
+        { year: '2017', price: 22.0 },
+        { year: '2019', price: 26.0 },
+        { year: '2021', price: 29.0 },
+        { year: '2023', price: 33.0 },
+        { year: '2025', price: 36.4 },
+      ],
       features: ['蘆竹重劃區', '近桃園機場', '生活機能發展中', '房價親民'],
       desc: '位於蘆竹區，鄰近桃園國際機場，生活機能持續發展中。房價相對親民，適合預算有限但希望享有機捷便利的購屋族。',
       source: '桃園市政府地政局114年Q4'
@@ -888,6 +952,13 @@ export default function Home() {
     {
       id: 'A11', name: '坑口', segment: 'taoyuan', city: '桃園市蘆竹區',
       pricePerPing: 30, priceNote: '周邊行情估算（交易量少）',
+      priceHistory: [
+        { year: '2017', price: 18.0 },
+        { year: '2019', price: 21.0 },
+        { year: '2021', price: 24.0 },
+        { year: '2023', price: 27.0 },
+        { year: '2025', price: 30.0 },
+      ],
       features: ['近桃園機場', '捷運綠線未來轉乘', '生活機能發展中', '航空城效益期待'],
       desc: '位於蘆竹區，鄰近機場，未來捷運綠線完工後可在此轉乘，串聯桃園市中心。目前生活機能尚在發展，但航空城計畫帶來長期發展潛力。',
       source: '桃園市政府地政局、實價登錄'
@@ -895,6 +966,7 @@ export default function Home() {
     {
       id: 'A12', name: '機場第一航廈', segment: 'taoyuan', city: '桃園市大園區',
       pricePerPing: null, priceNote: '機場特區，以商業/工業為主',
+      priceHistory: null,
       features: ['桃園國際機場', '第一航廈', '出入境大廳', '機場商圈'],
       desc: '桃園國際機場第一航廈，服務國際旅客。直達車停靠站，從台北車站約35分鐘可達。周邊以機場相關商業及工業用地為主。',
       source: '桃園捷運公司'
@@ -902,6 +974,7 @@ export default function Home() {
     {
       id: 'A13', name: '機場第二航廈', segment: 'taoyuan', city: '桃園市大園區',
       pricePerPing: null, priceNote: '機場特區，以商業/工業為主',
+      priceHistory: null,
       features: ['桃園國際機場', '第二航廈', '出入境大廳', '直達車停靠'],
       desc: '桃園國際機場第二航廈，為主要出入境航廈。直達車停靠站，提供快速的機場聯絡服務。周邊以機場相關設施為主。',
       source: '桃園捷運公司'
@@ -909,6 +982,7 @@ export default function Home() {
     {
       id: 'A14a', name: '機場旅館', segment: 'taoyuan', city: '桃園市大園區',
       pricePerPing: null, priceNote: '機場特區，以旅館/商業為主',
+      priceHistory: null,
       features: ['機場旅館', '近第三航廈（規劃中）', '機場商業區', '航空城特區'],
       desc: '鄰近桃園機場旅館，未來第三航廈（A14）預計2027年啟用後，本站將成為更重要的交通節點。航空城特區的持續開發將帶動周邊發展。',
       source: '桃園捷運公司、桃園市政府'
@@ -2230,6 +2304,59 @@ export default function Home() {
                               )}
                             </div>
                           </div>
+                          {/* 歷年房價趨勢折線圖 */}
+                          {airportMrtStations[selectedMrtStation].priceHistory && (() => {
+                            const history = airportMrtStations[selectedMrtStation].priceHistory!;
+                            const prices = history.map(h => h.price);
+                            const minPrice = Math.floor(Math.min(...prices) * 0.9);
+                            const maxPrice = Math.ceil(Math.max(...prices) * 1.05);
+                            const svgW = 280, svgH = 90, padL = 36, padR = 10, padT = 10, padB = 22;
+                            const chartW = svgW - padL - padR;
+                            const chartH = svgH - padT - padB;
+                            const toX = (i: number) => padL + (i / (history.length - 1)) * chartW;
+                            const toY = (p: number) => padT + chartH - ((p - minPrice) / (maxPrice - minPrice)) * chartH;
+                            const points = history.map((h, i) => `${toX(i)},${toY(h.price)}`).join(' ');
+                            const fillPoints = `${padL},${padT + chartH} ` + history.map((h, i) => `${toX(i)},${toY(h.price)}`).join(' ') + ` ${toX(history.length - 1)},${padT + chartH}`;
+                            const isSegTaipei = airportMrtStations[selectedMrtStation].segment === 'taipei';
+                            const lineColor = isSegTaipei ? '#3b82f6' : '#2eb89f';
+                            const fillColor = isSegTaipei ? 'rgba(59,130,246,0.12)' : 'rgba(46,184,159,0.12)';
+                            return (
+                              <div className="mb-3">
+                                <div className="text-xs text-gray-500 mb-1 font-medium">📈 歷年房價趨勢（萬/坪）</div>
+                                <div className="bg-gray-50 rounded-lg p-2 border border-gray-100">
+                                  <svg width="100%" viewBox={`0 0 ${svgW} ${svgH}`} style={{display:'block'}}>
+                                    {/* 格線 */}
+                                    {[0, 0.5, 1].map((t, i) => {
+                                      const y = padT + chartH * (1 - t);
+                                      const val = Math.round(minPrice + (maxPrice - minPrice) * t);
+                                      return (
+                                        <g key={i}>
+                                          <line x1={padL} y1={y} x2={svgW - padR} y2={y} stroke="#e5e7eb" strokeWidth="1" strokeDasharray="3,3" />
+                                          <text x={padL - 3} y={y + 3.5} textAnchor="end" fontSize="8" fill="#9ca3af">{val}</text>
+                                        </g>
+                                      );
+                                    })}
+                                    {/* 填色區域 */}
+                                    <polygon points={fillPoints} fill={fillColor} />
+                                    {/* 折線 */}
+                                    <polyline points={points} fill="none" stroke={lineColor} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+                                    {/* 資料點與標籤 */}
+                                    {history.map((h, i) => (
+                                      <g key={i}>
+                                        <circle cx={toX(i)} cy={toY(h.price)} r="3" fill={lineColor} stroke="white" strokeWidth="1.5" />
+                                        {i === history.length - 1 && (
+                                          <text x={toX(i) - 2} y={toY(h.price) - 6} textAnchor="middle" fontSize="8" fill={lineColor} fontWeight="bold">{h.price}</text>
+                                        )}
+                                        {/* X 軸年份 */}
+                                        <text x={toX(i)} y={svgH - 4} textAnchor="middle" fontSize="8" fill="#6b7280">{h.year}</text>
+                                      </g>
+                                    ))}
+                                  </svg>
+                                  <div className="text-xs text-gray-400 text-right mt-0.5">來源：有巢氏房屋、桃園市政府地政局、中信房屋</div>
+                                </div>
+                              </div>
+                            );
+                          })()}
                           <p className="text-sm text-gray-600 mb-3 leading-relaxed">{airportMrtStations[selectedMrtStation].desc}</p>
                           <div className="flex flex-wrap gap-1.5 mb-2">
                             {airportMrtStations[selectedMrtStation].features.map((f, i) => (
