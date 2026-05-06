@@ -1387,6 +1387,18 @@ export default function Home() {
                 ))}
               </div>
               <p className="text-xs text-gray-400 mt-4 text-right">來源出處：桃園市政府 / 中華民國行政院</p>
+              {/* CTA 行動呼籲 - 歷史地理 */}
+              <div className="mt-12 mb-16 text-center">
+                <p className="text-gray-600 mb-4 font-medium">看好桃園在地發展潛力？讓專業團隊為您精準佈局</p>
+                <a
+                  href="https://page.line.me/768fuhqm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center bg-teal-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-teal-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 min-h-[44px]"
+                >
+                  💡 找好案、問行情，立即聯繫中壢體育園區店
+                </a>
+              </div>
             </div>
             {/* Taoyuan Map Section */}
             <section className="bg-white rounded-2xl shadow-lg overflow-hidden border border-[#e8f5f1]">
@@ -1401,7 +1413,7 @@ export default function Home() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {TAOYUAN_REGIONS.map((region, idx) => (
-                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-lg transition duration-300 overflow-hidden">
+                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                     {region.image && (
                       <div className="relative h-40 bg-cover bg-center" style={{backgroundImage: `url(${region.image})`}}>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
@@ -1712,7 +1724,7 @@ export default function Home() {
               <h3 className="text-3xl font-bold bg-gradient-to-r from-[#2eb89f] to-[#1f8b7f] bg-clip-text text-transparent mb-8">🎡 特色公園</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {PARKS.map((park, idx) => (
-                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer" onClick={() => setSelectedPark(park)}>
+                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer" onClick={() => setSelectedPark(park)}>
                     {park.image && (
                       <div className="relative h-40 bg-cover bg-center" style={{backgroundImage: `url(${park.image})`}}>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
@@ -1764,7 +1776,7 @@ export default function Home() {
               <h3 className="text-3xl font-bold bg-gradient-to-r from-[#2eb89f] to-[#1f8b7f] bg-clip-text text-transparent mb-8">👶 親子館</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {CHILDCARE_CENTERS.map((center, idx) => (
-                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer" onClick={() => setSelectedCenter(center)}>
+                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer" onClick={() => setSelectedCenter(center)}>
                     {center.image && (
                       <div className="relative h-40 bg-cover bg-center" style={{backgroundImage: `url(${center.image})`}}>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
@@ -1815,7 +1827,7 @@ export default function Home() {
               <h3 className="text-3xl font-bold bg-gradient-to-r from-[#2eb89f] to-[#1f8b7f] bg-clip-text text-transparent mb-8">📚 圖書館</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {LIBRARIES.map((lib, idx) => (
-                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer" onClick={() => setSelectedLibrary(lib)}>
+                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer" onClick={() => setSelectedLibrary(lib)}>
                     {lib.image && (
                       <div className="relative h-40 bg-cover bg-center" style={{backgroundImage: `url(${lib.image})`}}>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
@@ -1956,7 +1968,7 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {CINEMAS.map((cinema: any, idx: number) => (
-                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-lg transition duration-300 overflow-hidden">
+                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                     {cinema.image && (
                       <div className="relative h-44 bg-cover bg-center" style={{backgroundImage: `url(${cinema.image})`}}>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -2021,7 +2033,7 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {WOMENS_CENTERS.map((center: any, idx: number) => (
-                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-lg transition duration-300 overflow-hidden">
+                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                     {center.image && (
                       <div className="relative h-44 bg-cover bg-center" style={{backgroundImage: `url(${center.image})`}}>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -2182,7 +2194,7 @@ export default function Home() {
               {/* 進度條圖表 */}
               <div className="space-y-4 mb-8">
                 {trafficProjects.map((project) => (
-                  <div key={project.id} className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                  <div key={project.id} className="bg-gray-50 rounded-lg p-4 border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2 flex-1 min-w-0">
                         <span className="font-bold text-gray-800 text-sm md:text-base truncate">{project.name}</span>
@@ -2219,6 +2231,18 @@ export default function Home() {
               </div>
 
               <p className="text-xs text-gray-400 text-right">來源出處：桃園市政府捷運工程局 / 交通部鐵道局 / 桃園市政府</p>
+              {/* CTA 行動呼籲 - 交通建設 */}
+              <div className="mt-12 mb-16 text-center">
+                <p className="text-gray-600 mb-4 font-medium">看好桃園在地發展潛力？讓專業團隊為您精準佈局</p>
+                <a
+                  href="https://page.line.me/768fuhqm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center bg-teal-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-teal-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 min-h-[44px]"
+                >
+                  💡 找好案、問行情，立即聯繫中壢體育園區店
+                </a>
+              </div>
             </div>
             <section className="bg-white rounded-2xl shadow-lg p-10 border border-[#e8f5f1]">
               <h3 className="text-3xl font-bold bg-gradient-to-r from-[#2eb89f] to-[#1f8b7f] bg-clip-text text-transparent mb-8">🚆 交通運輸</h3>
@@ -2280,7 +2304,7 @@ export default function Home() {
                     <div className="mt-4 bg-white border border-[#2eb89f] rounded-xl p-4 shadow-lg relative">
                       <button
                         onClick={() => setSelectedMrtStation(null)}
-                        className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-lg font-bold"
+                        className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-lg font-bold min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="關閉視窗"
                       >✕</button>
                       <div className="flex items-start gap-3">
                         <div className="flex-shrink-0">
@@ -2425,7 +2449,7 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {RESTAURANTS.family.map((r, idx) => (
-                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-lg transition duration-300 overflow-hidden">
+                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                     {r.unsplashImage && (
                       <div className="relative h-44 bg-cover bg-center" style={{backgroundImage: `url(${r.unsplashImage})`}}>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
@@ -2478,7 +2502,7 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {RESTAURANTS.pet.map((r, idx) => (
-                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-lg transition duration-300 overflow-hidden">
+                  <div key={idx} className="bg-white rounded-xl border border-[#e8f5f1] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                     {r.unsplashImage && (
                       <div className="relative h-44 bg-cover bg-center" style={{backgroundImage: `url(${r.unsplashImage})`}}>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
@@ -2947,7 +2971,7 @@ export default function Home() {
                 <h2 className="text-2xl font-bold">{selectedPark.name}</h2>
                 <p className="text-white/80 text-sm mt-1">📍 {selectedPark.location}</p>
               </div>
-              <button onClick={() => setSelectedPark(null)} className="text-white/80 hover:text-white text-2xl flex-shrink-0">✕</button>
+              <button onClick={() => setSelectedPark(null)} className="text-white/80 hover:text-white text-2xl flex-shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="關閉視窗">✕</button>
             </div>
             {selectedPark.image && (
               <div className="w-full h-52 overflow-hidden">
@@ -2990,7 +3014,7 @@ export default function Home() {
                 <h2 className="text-2xl font-bold">{selectedCenter.name}</h2>
                 <p className="text-white/80 text-sm mt-1">📍 {selectedCenter.location}</p>
               </div>
-              <button onClick={() => setSelectedCenter(null)} className="text-white/80 hover:text-white text-2xl flex-shrink-0">✕</button>
+              <button onClick={() => setSelectedCenter(null)} className="text-white/80 hover:text-white text-2xl flex-shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="關閉視窗">✕</button>
             </div>
             {selectedCenter.image && (
               <div className="w-full h-52 overflow-hidden">
@@ -3044,7 +3068,7 @@ export default function Home() {
                 <h2 className="text-2xl font-bold">{selectedLibrary.name}</h2>
                 <p className="text-white/80 text-sm mt-1">📍 {selectedLibrary.location}</p>
               </div>
-              <button onClick={() => setSelectedLibrary(null)} className="text-white/80 hover:text-white text-2xl flex-shrink-0">✕</button>
+              <button onClick={() => setSelectedLibrary(null)} className="text-white/80 hover:text-white text-2xl flex-shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="關閉視窗">✕</button>
             </div>
             <div className="p-6 space-y-4">
               <div>
@@ -3086,7 +3110,7 @@ export default function Home() {
                   {selectedEvent.location && <p className="text-white/80 text-xs sm:text-sm mt-1 break-words">📍 {selectedEvent.location}</p>}
                 </div>
               </div>
-              <button onClick={() => setSelectedEvent(null)} className="text-white/80 hover:text-white text-xl sm:text-2xl flex-shrink-0">
+              <button onClick={() => setSelectedEvent(null)} className="text-white/80 hover:text-white text-xl sm:text-2xl flex-shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="關閉視窗">
                 <X size={20} className="sm:w-6 sm:h-6" />
               </button>
             </div>
@@ -3129,8 +3153,8 @@ export default function Home() {
 
       {/* Event Details Modal */}
       {showEventModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-300">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-in zoom-in duration-300">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-300" onClick={handleCloseModal}>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-in zoom-in duration-300" onClick={(e) => e.stopPropagation()}>
             {/* Modal Header */}
             <div className="sticky top-0 bg-gradient-to-r from-[#2eb89f] to-[#1f8b7f] p-6 flex items-center justify-between">
               <div className="flex items-center gap-3">

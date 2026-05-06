@@ -28,7 +28,7 @@ export default function Navbar({ activeTab = "home", setActiveTab }: NavbarProps
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm border-b border-[#d4ede8]">
+    <header className="sticky top-0 z-[100] bg-white/95 backdrop-blur-sm shadow-md border-b border-[#d4ede8]">
       <div className="container py-4">
         {/* Top Row: Logo + Action Buttons */}
         <div className="flex items-center justify-between mb-4">
