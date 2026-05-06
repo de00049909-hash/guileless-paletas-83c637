@@ -163,7 +163,7 @@ const DAILY_CONTENT = {
         title: "美食地圖導覽",
         description: "大溪豆干、龍潭花生糖、山地農特產…桃園美食地圖一次看尽！",
         details: "桃園旅遊觀光網的美食專區收錄各區特色美食，包括大溪豆干、龍潭花生糖、山地農特產、各區特色小吃等。計劃桃園美食之旅，一定要看這裡！",
-        sourceUrl: "https://travel.tycg.gov.tw/zh-tw/food/",
+        sourceUrl: "https://travel.tycg.gov.tw/zh-tw/immersive/",
         sourceLabel: "桃園旅遊觀光網美食專區",
       },
     ],
@@ -2716,9 +2716,9 @@ export default function Home() {
                     className="inline-block px-4 py-2 bg-blue-500 text-white text-sm font-bold rounded-lg hover:bg-blue-600 transition shadow-sm">
                     📅 活動日曆
                   </a>
-                  <a href="https://travel.tycg.gov.tw/zh-tw/food/" target="_blank" rel="noopener noreferrer"
+                  <a href="https://travel.tycg.gov.tw/zh-tw/immersive/" target="_blank" rel="noopener noreferrer"
                     className="inline-block px-4 py-2 bg-orange-500 text-white text-sm font-bold rounded-lg hover:bg-orange-600 transition shadow-sm">
-                    🍼 美食地圖
+                    🎮 線上玩桃園
                   </a>
                   <a href="https://travel.tycg.gov.tw/zh-tw/travel/mapnavigate" target="_blank" rel="noopener noreferrer"
                     className="inline-block px-4 py-2 bg-purple-500 text-white text-sm font-bold rounded-lg hover:bg-purple-600 transition shadow-sm">
