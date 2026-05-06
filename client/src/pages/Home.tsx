@@ -2720,7 +2720,7 @@ export default function Home() {
                     className="inline-block px-4 py-2 bg-orange-500 text-white text-sm font-bold rounded-lg hover:bg-orange-600 transition shadow-sm">
                     🍼 美食地圖
                   </a>
-                  <a href="https://travel.tycg.gov.tw/zh-tw/attraction/" target="_blank" rel="noopener noreferrer"
+                  <a href="https://travel.tycg.gov.tw/zh-tw/travel/mapnavigate" target="_blank" rel="noopener noreferrer"
                     className="inline-block px-4 py-2 bg-purple-500 text-white text-sm font-bold rounded-lg hover:bg-purple-600 transition shadow-sm">
                     🌄 景點導覽
                   </a>
