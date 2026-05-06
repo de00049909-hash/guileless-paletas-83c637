@@ -813,28 +813,74 @@ export default function Home() {
   // 2026 年桃園重大交通建設資料
   const trafficProjects = [
     {
+      id: 'airport-line',
+      name: '✈️ 捷運機場線',
+      status: '通車營運中',
+      progress: 100,
+      color: '#059669',
+      tag: '已通車',
+      tagColor: 'bg-emerald-600',
+      desc: '106年3月通車，14站直達台北，快速連接北台灣，每日旅客量龐大。'
+    },
+    {
       id: 'green-line',
-      name: '🚄 桃園捷運綠線',
+      name: '🚄 捷運綠線（北段）',
       status: '北段預計 2026 年底通車',
-      desc: '串聯桃園市區至大園，全長 27.8 公里共 21 站，大幅提升在地生活機能，沿線房市備受矚目。'
+      progress: 69,
+      color: '#2eb89f',
+      tag: '施工中',
+      tagColor: 'bg-teal-500',
+      desc: '串聯桃園市區至大園，全長 27.8 公里共 21 站，計畫總進度 68.95%，沿線房市備受矚目。'
     },
     {
       id: 'railway',
-      name: '🚉 桃園鐵路地下化工程',
-      status: '工程積極進行中',
-      desc: '消除市區平交道、縫合都市景觀，完工後將帶動桃園站周邊大規模都市更新。'
+      name: '🚉 桃園鐵路地下化',
+      status: '施工中，預計 2034 年完工',
+      progress: 35,
+      color: '#2eb89f',
+      tag: '施工中',
+      tagColor: 'bg-teal-500',
+      desc: '消除市區平交道、縫合都市景觀，全段進度約 35%，完工後帶動桃園站周邊大規模都市更新。'
     },
     {
       id: 'aviation-city',
       name: '✈️ 航空城特區建設',
       status: '2026 年底完成先建後遷',
+      progress: 25,
+      color: '#2eb89f',
+      tag: '推進中',
+      tagColor: 'bg-teal-500',
       desc: '台灣最大國家建設，預計 2027 年全面動工，帶動大園、蘆竹等地區產業與就業成長。'
     },
     {
-      id: 'taoyuan-metro',
+      id: 'brown-line',
+      name: '🟤 捷運棕線',
+      status: '工程招標階段',
+      progress: 5,
+      color: '#9ca3af',
+      tag: '招標中',
+      tagColor: 'bg-gray-400',
+      desc: '115年1月行政院同意工程經費審議，連結桃園市中心與八德、大溪等地區。'
+    },
+    {
+      id: 'green-line-ext',
       name: '🟢 捷運綠線延伸中壢',
-      status: '規劃審查階段',
-      desc: '從 G01 建德興豐站向南延伸，串聯中壢火車站，預期大幅提升中壢區交通便利性。'
+      status: '工程招標階段',
+      progress: 5,
+      color: '#9ca3af',
+      tag: '招標中',
+      tagColor: 'bg-gray-400',
+      desc: '114年5月行政院同意工程經費審議，從 G01 建德興豐站向南延伸，串聯中壢火車站。'
+    },
+    {
+      id: 'sanyingba',
+      name: '🔵 捷運三鶯延伸八德',
+      status: '綜合規劃階段',
+      progress: 3,
+      color: '#9ca3af',
+      tag: '規劃中',
+      tagColor: 'bg-gray-400',
+      desc: '115年2月提報修正報告，延伸三鶯線至八德，未來串聯新北與桃園的重要路線。'
     }
   ];
   const [selectedMonthlyCard, setSelectedMonthlyCard] = useState<any>(null);
@@ -1951,18 +1997,50 @@ export default function Home() {
         {activeTab === "transportation" && (
           <div className="space-y-12">
             {/* 2026 重大交通建設區塊 */}
-            <div className="mt-8 p-4 bg-white rounded-xl shadow-lg border-2 border-gray-100">
-              <h2 className="text-2xl font-bold mb-6 text-gray-800">🚧 2026 桃園重大交通建設</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="mt-8 p-6 bg-white rounded-xl shadow-lg border-2 border-gray-100">
+              <h2 className="text-2xl font-bold mb-2 text-gray-800">🚧 2026 桃園重大交通建設</h2>
+              <p className="text-sm text-gray-500 mb-6">各項建設工程進度一覽（資料更新：115年5月）</p>
+
+              {/* 進度條圖表 */}
+              <div className="space-y-4 mb-8">
                 {trafficProjects.map((project) => (
-                  <div key={project.id} className="p-6 border-2 border-teal-500 rounded-lg shadow-md hover:shadow-xl transition-shadow bg-teal-50">
-                    <h3 className="text-xl font-bold text-teal-800">{project.name}</h3>
-                    <p className="font-bold text-blue-600 mt-2">目前進度：{project.status}</p>
-                    <p className="text-gray-700 mt-2">{project.desc}</p>
+                  <div key={project.id} className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <span className="font-bold text-gray-800 text-sm md:text-base truncate">{project.name}</span>
+                        <span className={`flex-shrink-0 text-xs text-white px-2 py-0.5 rounded-full font-medium ${project.tagColor}`}>{project.tag}</span>
+                      </div>
+                      <span className="flex-shrink-0 font-bold text-base ml-3" style={{ color: project.color }}>{project.progress}%</span>
+                    </div>
+                    {/* 進度條 */}
+                    <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                      <div
+                        className="h-4 rounded-full transition-all duration-700"
+                        style={{ width: `${project.progress}%`, backgroundColor: project.color }}
+                      />
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">{project.status}　｜　{project.desc}</p>
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-gray-400 mt-4 text-right">來源出處：桃園市政府捷運工程局 / 桃園市政府</p>
+
+              {/* 圖例說明 */}
+              <div className="flex flex-wrap gap-4 mb-4">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded-full bg-emerald-600 inline-block"></span>
+                  <span className="text-xs text-gray-600">已通車</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded-full bg-teal-500 inline-block"></span>
+                  <span className="text-xs text-gray-600">施工 / 推進中</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-3 h-3 rounded-full bg-gray-400 inline-block"></span>
+                  <span className="text-xs text-gray-600">招標 / 規劃中</span>
+                </div>
+              </div>
+
+              <p className="text-xs text-gray-400 text-right">來源出處：桃園市政府捷運工程局 / 交通部鐵道局 / 桃園市政府</p>
             </div>
             <section className="bg-white rounded-2xl shadow-lg p-10 border border-[#e8f5f1]">
               <h3 className="text-3xl font-bold bg-gradient-to-r from-[#2eb89f] to-[#1f8b7f] bg-clip-text text-transparent mb-8">🚆 交通運輸</h3>
